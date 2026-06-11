@@ -1,0 +1,3 @@
+- Batch image import/export
+- Advanced search with metadata filters
+- API endpoints for external integrations
