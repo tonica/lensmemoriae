@@ -1,9 +1,22 @@
 {
     "name": "LensMemoriae",
     "version": "19.0.1.0.7",
-    "summary": "Browse and view images stored on the filesystem",
-    "description": "Browse images with directory scanning, tags, and chatter.",
-    "author": "OpenCode",
+    "summary": "Recover the memory of photographs",
+    "description": """
+Recover the memory of your photographs: manage, tag, and share your images
+directly from Odoo.
+
+Main features:
+- Automatic directory scanning for images
+- Tagging and filtering by categories
+- Image moderation with approval workflow
+- Geolocation with interactive Leaflet map
+- Public gallery and self-registration
+- Word cloud from approved notes
+- Automatic face detection and person grouping
+- Bulk tagging operations
+""",
+    "author": "Toni Carbonell Güell",
     "category": "Tools",
     "icon": "/lensmemoriae/static/description/icon.png",
     "depends": ["base", "mail", "web", "queue_job", "website"],

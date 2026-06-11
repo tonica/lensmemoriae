@@ -1,8 +1,17 @@
 {
     "name": "LensMemoriae Faces",
     "version": "19.0.1.0.0",
-    "summary": "Person identification in photographs using face recognition",
-    "author": "OpenCode",
+    "summary": "Automatic face detection and person identification in photographs",
+    "description": """
+Automatically detect, group, and identify faces in your LensMemoriae images.
+
+Main features:
+- Automatic face detection on image scan
+- Person grouping and naming
+- Batch face identification wizard
+- Face-based image search and filtering
+""",
+    "author": "Toni Carbonell Güell",
     "category": "Tools",
     "depends": ["lensmemoriae"],
     # face_recognition is optional — code handles missing import gracefully
