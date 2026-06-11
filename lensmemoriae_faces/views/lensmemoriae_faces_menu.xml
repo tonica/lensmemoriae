@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem
+        id="lensmemoriae_people_menu"
+        name="People"
+        parent="lensmemoriae.lensmemoriae_root_menu"
+        action="lensmemoriae_person_action"
+        sequence="15"
+    />
+    <menuitem
+        id="lensmemoriae_faces_menu"
+        name="Faces"
+        parent="lensmemoriae.lensmemoriae_root_menu"
+        action="lensmemoriae_face_action"
+        sequence="16"
+    />
+    <menuitem
+        id="lensmemoriae_face_suggestions_menu"
+        name="Suggestions"
+        parent="lensmemoriae.lensmemoriae_root_menu"
+        action="lensmemoriae_face_suggestions_action"
+        sequence="17"
+    />
+</odoo>

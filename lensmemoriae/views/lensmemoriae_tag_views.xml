@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="lensmemoriae_tag_tree" model="ir.ui.view">
+        <field name="name">lensmemoriae.tag.tree</field>
+        <field name="model">lensmemoriae.tag</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="color" widget="color" />
+            </list>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_tag_form" model="ir.ui.view">
+        <field name="name">lensmemoriae.tag.form</field>
+        <field name="model">lensmemoriae.tag</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="color" widget="color" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_tag_action" model="ir.actions.act_window">
+        <field name="name">Etiquetes</field>
+        <field name="res_model">lensmemoriae.tag</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

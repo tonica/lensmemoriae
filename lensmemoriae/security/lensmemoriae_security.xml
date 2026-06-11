@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="module_category_lensmemoriae" model="ir.module.category">
+        <field name="name">LensMemoriae</field>
+        <field name="sequence">10</field>
+    </record>
+
+    <record id="privilege_moderator" model="res.groups.privilege">
+        <field name="name">LensMemoriae rol</field>
+        <field name="sequence">10</field>
+        <field name="category_id" ref="module_category_lensmemoriae" />
+    </record>
+
+    <record id="group_moderator" model="res.groups">
+        <field name="name">Moderator</field>
+        <field name="sequence">10</field>
+        <field name="privilege_id" ref="privilege_moderator" />
+    </record>
+
+    <record id="access_lensmemoriae_reject_reason_user" model="ir.model.access">
+        <field name="name">lensmemoriae.reject.reason user</field>
+        <field name="model_id" ref="model_lensmemoriae_reject_reason" />
+        <field name="group_id" ref="lensmemoriae.group_moderator" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+    <record id="access_lensmemoriae_image_moderator" model="ir.model.access">
+        <field name="name">lensmemoriae.image moderator</field>
+        <field name="model_id" ref="model_lensmemoriae_image" />
+        <field name="group_id" ref="lensmemoriae.group_moderator" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+    <record id="cron_download_images" model="ir.cron">
+        <field name="name">LensMemoriae: Download pending images</field>
+        <field name="model_id" ref="model_lensmemoriae_image" />
+        <field name="state">code</field>
+        <field name="code">model._cron_download_images(30)</field>
+        <field name="interval_number">5</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True" />
+    </record>
+
+    <record id="access_lensmemoriae_location_picker_user" model="ir.model.access">
+        <field name="name">lensmemoriae.location.picker user</field>
+        <field name="model_id" ref="model_lensmemoriae_location_picker" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+    <record id="access_lensmemoriae_image_user" model="ir.model.access">
+        <field name="name">lensmemoriae.image user</field>
+        <field name="model_id" ref="model_lensmemoriae_image" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="0" />
+        <field name="perm_unlink" eval="0" />
+    </record>
+
+    <record id="access_lensmemoriae_tag_user" model="ir.model.access">
+        <field name="name">lensmemoriae.tag user</field>
+        <field name="model_id" ref="model_lensmemoriae_tag" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+    <record id="access_lensmemoriae_bulk_tag_user" model="ir.model.access">
+        <field name="name">lensmemoriae.bulk.tag user</field>
+        <field name="model_id" ref="model_lensmemoriae_bulk_tag" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+    <record id="access_lensmemoriae_scrap_wizard_user" model="ir.model.access">
+        <field name="name">lensmemoriae.scrap.wizard user</field>
+        <field name="model_id" ref="model_lensmemoriae_scrap_wizard" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="0" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+    <record id="access_lensmemoriae_stop_word_user" model="ir.model.access">
+        <field name="name">lensmemoriae.stop.word user</field>
+        <field name="model_id" ref="model_lensmemoriae_stop_word" />
+        <field name="group_id" ref="lensmemoriae.group_moderator" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+</odoo>

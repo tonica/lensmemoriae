@@ -1,0 +1,468 @@
+img.lensmemoriae-list-image,
+.o_field_image.lensmemoriae-list-image img {
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.o_list_view.o_grouped img.lensmemoriae-list-image,
+.o_list_view.o_grouped .o_field_image.lensmemoriae-list-image img {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+// -----------------------------------------------------------------------
+// Kanban: Google Photos grid
+// -----------------------------------------------------------------------
+
+.o_kanban_renderer {
+    --lens-card-width: 220px;
+}
+
+.lensmemoriae-kanban .o_kanban_record {
+    flex: 0 0 var(--lens-card-width);
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: transparent;
+    margin: 4px;
+
+    &:hover {
+        transform: scale(1.02);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        z-index: 2;
+    }
+}
+
+.lensmemoriae-kanban .o_kanban_record .o_kanban_record_top {
+    display: none;
+}
+
+.lensmemoriae-grid-img-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+.lensmemoriae-grid-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    display: block;
+}
+
+.lensmemoriae-hover-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8px 10px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+.lensmemoriae-kanban .o_kanban_record:hover .lensmemoriae-hover-overlay {
+    opacity: 1;
+}
+
+.lensmemoriae-overlay-name {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lensmemoriae-overlay-desc {
+    color: #fff;
+    font-size: 11px;
+    line-height: 1.3;
+    margin-top: 3px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.lensmemoriae-desc-pending {
+    font-style: italic;
+    opacity: 0.7;
+    font-size: 10px;
+}
+
+.lensmemoriae-overlay-tags {
+    margin-top: 2px;
+
+    .o_tag {
+        font-size: 10px;
+        padding: 1px 5px;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+    }
+}
+
+// Hide default kanban details
+.lensmemoriae-kanban .oe_kanban_details {
+    display: none;
+}
+
+// -----------------------------------------------------------------------
+// Cinema lightbox
+// -----------------------------------------------------------------------
+
+.lensmemoriae-cinema {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 11000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lensmemoriae-cinema-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.92);
+    cursor: pointer;
+}
+
+.lensmemoriae-cinema-viewport {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+.lensmemoriae-cinema-img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+}
+
+.lensmemoriae-cinema-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.8);
+    }
+}
+
+.lensmemoriae-cinema-prev,
+.lensmemoriae-cinema-next {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    border: none;
+    font-size: 48px;
+    width: 56px;
+    height: 80px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: background 0.15s;
+    line-height: 1;
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+    &.o_hidden {
+        display: none;
+    }
+}
+
+.lensmemoriae-cinema-prev {
+    left: 16px;
+}
+
+.lensmemoriae-cinema-next {
+    right: 16px;
+}
+
+.lensmemoriae-cinema-info-wrap {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    pointer-events: none;
+}
+
+.lensmemoriae-cinema-name {
+    font-weight: 600;
+}
+
+.lensmemoriae-cinema-tags {
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+.lensmemoriae-cinema-counter {
+    font-size: 11px;
+    opacity: 0.6;
+}
+
+// -----------------------------------------------------------------------
+// Multi-select bulk toolbar
+// -----------------------------------------------------------------------
+
+.lensmemoriae-bulk-toolbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10500;
+    background: #fff;
+    border-top: 1px solid #dee2e6;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transform: translateY(100%);
+    transition: transform 0.25s ease;
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
+
+    &.o_visible {
+        transform: translateY(0);
+    }
+}
+
+.lensmemoriae-bulk-count {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.lensmemoriae-bulk-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+// -----------------------------------------------------------------------
+// Size selector toolbar in kanban header
+// -----------------------------------------------------------------------
+
+.lensmemoriae-size-bar {
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-bottom: 1px solid #dee2e6;
+    background: #f8f9fa;
+}
+
+.lensmemoriae-size-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #495057;
+    white-space: nowrap;
+}
+
+.lensmemoriae-size-slider {
+    flex: 0 0 100px;
+    height: 4px;
+    cursor: pointer;
+    accent-color: #017e84;
+}
+
+.lensmemoriae-size-value {
+    font-size: 11px;
+    color: #6c757d;
+    min-width: 38px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+// -----------------------------------------------------------------------
+// Leaflet map styles
+// -----------------------------------------------------------------------
+
+.o_leaflet_map_field {
+    .o_leaflet_map_container {
+        height: 300px;
+        border-radius: 6px;
+        border: 1px solid #dee2e6;
+    }
+
+    .o_leaflet_map_empty {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f8f9fa;
+        border-radius: 6px;
+        border: 1px dashed #dee2e6;
+        color: #6c757d;
+        font-size: 13px;
+    }
+
+    .o_leaflet_map_info {
+        margin-bottom: 4px;
+    }
+
+    .o_leaflet_search_bar {
+        display: flex;
+        gap: 4px;
+        margin-bottom: 8px;
+
+        input {
+            flex: 1;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 13px;
+        }
+    }
+
+    .o_leaflet_search_results {
+        position: absolute;
+        z-index: 1001;
+        background: white;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        max-height: 180px;
+        overflow-y: auto;
+        width: calc(100% - 40px);
+        top: 36px;
+        left: 36px;
+
+        .o_leaflet_search_result {
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 12px;
+            border-bottom: 1px solid #f0f0f0;
+
+            &:hover {
+                background: #e9ecef;
+            }
+
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
+
+    &.editable {
+        .o_leaflet_map_container {
+            height: 400px;
+        }
+
+        position: relative;
+    }
+}
+
+.o_lensmemoriae_map_view {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+
+    .o_lensmemoriae_map_toolbar {
+        padding: 8px 16px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    .o_lensmemoriae_map_container {
+        flex: 1;
+        min-height: 400px;
+    }
+}
+
+// -----------------------------------------------------------------------
+// Word cloud
+// -----------------------------------------------------------------------
+
+.o_lensmemoriae_wordcloud {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+
+    .o_lensmemoriae_wordcloud_toolbar {
+        padding: 8px 16px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+        font-size: 13px;
+        flex-shrink: 0;
+    }
+
+    .o_lensmemoriae_wordcloud_body {
+        flex: 1;
+        position: relative;
+        min-height: 300px;
+    }
+
+    .o_lensmemoriae_wordcloud_canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        cursor: pointer;
+        min-height: 300px;
+    }
+
+    .o_lensmemoriae_wordcloud_tooltip {
+        position: fixed;
+        z-index: 11000;
+        background: rgba(0, 0, 0, 0.82);
+        color: #fff;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        pointer-events: none;
+        transform: translate(10px, -50%);
+        white-space: nowrap;
+    }
+}

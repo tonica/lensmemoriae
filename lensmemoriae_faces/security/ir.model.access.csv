@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lensmemoriae_person_user,lensmemoriae.person user,model_lensmemoriae_person,base.group_user,1,1,1,0
+access_lensmemoriae_face_user,lensmemoriae.face user,model_lensmemoriae_face,base.group_user,1,0,0,0
+access_lensmemoriae_face_manager,lensmemoriae.face manager,model_lensmemoriae_face,lensmemoriae_faces.group_face_manager,1,1,1,1
+access_lensmemoriae_face_identify_user,lensmemoriae.face.identify user,model_lensmemoriae_face_identify,base.group_user,1,1,1,1

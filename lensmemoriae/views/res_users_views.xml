@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_lensmemoriae_res_users_form" model="ir.ui.view">
+        <field name="name">res.users.form.lensmemoriae</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='access_rights']" position="inside">
+                <group string="LensMemoriae">
+                    <field name="lensmemoriae_show_scan" />
+                    <field name="lensmemoriae_show_scrap" />
+                    <field name="lensmemoriae_show_clear_all" />
+                    <field name="lensmemoriae_show_generate_desc" />
+                    <field name="lensmemoriae_show_download" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

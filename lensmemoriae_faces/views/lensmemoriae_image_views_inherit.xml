@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="lensmemoriae_image_form_inherit_faces" model="ir.ui.view">
+        <field name="name">lensmemoriae.image.form.faces</field>
+        <field name="model">lensmemoriae.image</field>
+        <field name="inherit_id" ref="lensmemoriae.lensmemoriae_image_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <group string="Detected People" name="faces">
+                    <field name="face_ids" nolabel="1">
+                        <list>
+                            <field name="thumbnail" widget="image" class="oe_avatar" />
+                            <field
+                                name="person_id"
+                                decoration-success="state == 'identified'"
+                                decoration-info="state == 'suggested'"
+                            />
+                            <field
+                                name="state"
+                                decoration-success="state == 'identified'"
+                                decoration-info="state == 'suggested'"
+                                decoration-muted="state == 'ignored'"
+                                decoration-warning="state == 'detected'"
+                            />
+                            <button
+                                name="action_identify"
+                                type="object"
+                                string="Identify"
+                                icon="fa-tag"
+                                invisible="state not in ('detected', 'suggested')"
+                            />
+                            <button
+                                name="action_accept_suggestion"
+                                type="object"
+                                string="Accept"
+                                icon="fa-check"
+                                class="btn-success"
+                                invisible="state != 'suggested'"
+                            />
+                            <button
+                                name="action_clear_suggestion"
+                                type="object"
+                                string="Clear"
+                                icon="fa-undo"
+                                invisible="state != 'suggested'"
+                            />
+                            <button
+                                name="action_ignore"
+                                type="object"
+                                string="Ignore"
+                                icon="fa-eye-slash"
+                                invisible="state not in ('detected', 'suggested')"
+                            />
+                        </list>
+                    </field>
+                    <div class="row" style="margin-top: 8px;">
+                        <button
+                            name="action_scan_faces"
+                            type="object"
+                            string="Scan for Faces"
+                            class="btn-primary"
+                            groups="lensmemoriae.group_moderator"
+                        />
+                        <span
+                            class="text-muted small ms-2"
+                            style="margin-left: 12px; align-self: center;"
+                        >
+                            <field
+                                name="face_scan_state"
+                                class="mx-1"
+                                decoration-success="face_scan_state == 'scanned'"
+                                decoration-warning="face_scan_state == 'pending' or face_scan_state == 'scanning'"
+                                decoration-danger="face_scan_state == 'error'"
+                            />
+                            <field
+                                name="face_scan_date"
+                                invisible="not face_scan_date"
+                            />
+                            <field name="face_count" invisible="not face_count" />
+                            <span invisible="not face_count"> faces</span>
+                        </span>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_image_search_inherit_faces" model="ir.ui.view">
+        <field name="name">lensmemoriae.image.search.faces</field>
+        <field name="model">lensmemoriae.image</field>
+        <field name="inherit_id" ref="lensmemoriae.lensmemoriae_image_search" />
+        <field name="arch" type="xml">
+            <separator position="after">
+                <field name="face_ids" widget="many2many_tags" />
+                <filter
+                    name="filter_has_faces"
+                    string="Has Faces"
+                    domain="[('face_ids', '!=', False)]"
+                />
+                <filter
+                    name="filter_no_faces"
+                    string="No Faces"
+                    domain="[('face_ids', '=', False)]"
+                />
+                <filter
+                    name="filter_has_identified"
+                    string="Has Identified"
+                    domain="[('face_ids.person_id', '!=', False)]"
+                />
+                <separator />
+            </separator>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_image_kanban_inherit_faces" model="ir.ui.view">
+        <field name="name">lensmemoriae.image.kanban.faces</field>
+        <field name="model">lensmemoriae.image</field>
+        <field name="inherit_id" ref="lensmemoriae.lensmemoriae_image_kanban" />
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="face_ids" />
+            </field>
+            <xpath expr="//div[hasclass('lensmemoriae-overlay-tags')]" position="after">
+                <div
+                    class="lensmemoriae-overlay-faces"
+                    t-if="record.face_ids.raw_value"
+                >
+                    <t t-esc="record.face_ids.raw_value.length" />
+                    persones
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

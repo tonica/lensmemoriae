@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="lensmemoriae_person_tree" model="ir.ui.view">
+        <field name="name">lensmemoriae.person.tree</field>
+        <field name="model">lensmemoriae.person</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" />
+                <field name="partner_id" optional="show" />
+                <field name="face_count" />
+                <field name="image_count" />
+            </list>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_person_form" model="ir.ui.view">
+        <field name="name">lensmemoriae.person.form</field>
+        <field name="model">lensmemoriae.person</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="partner_id" />
+                        <field name="notes" />
+                    </group>
+                    <notebook>
+                        <page string="Reference Faces">
+                            <field name="face_ids" nolabel="1">
+                                <list>
+                                    <field
+                                        name="thumbnail"
+                                        widget="image"
+                                        class="oe_avatar"
+                                    />
+                                    <field name="image_id" />
+                                    <field name="image_name" />
+                                    <field name="state" />
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Photos">
+                            <field
+                                name="image_ids"
+                                nolabel="1"
+                                view_mode="kanban,list,form"
+                                context="{'no_create': True}"
+                            />
+                        </page>
+                    </notebook>
+                </sheet>
+                <header>
+                    <button
+                        name="action_find_matches"
+                        type="object"
+                        string="Find Matches"
+                        class="btn-primary"
+                    />
+                    <button
+                        name="action_open_images"
+                        type="object"
+                        string="View Photos"
+                        class="btn-secondary"
+                    />
+                </header>
+            </form>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_person_search" model="ir.ui.view">
+        <field name="name">lensmemoriae.person.search</field>
+        <field name="model">lensmemoriae.person</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="partner_id" />
+            </search>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_person_action" model="ir.actions.act_window">
+        <field name="name">People</field>
+        <field name="res_model">lensmemoriae.person</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'no_create': False}</field>
+    </record>
+</odoo>

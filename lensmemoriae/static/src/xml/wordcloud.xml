@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="lensmemoriae.WordCloud">
+        <div class="o_lensmemoriae_wordcloud">
+            <div class="o_lensmemoriae_wordcloud_toolbar">
+                <t t-if="state.loading">
+                    <i class="fa fa-spinner fa-spin" /> Loading…
+                </t>
+                <t t-else="">
+                    <t t-esc="state.wordCount" /> paraules
+                </t>
+            </div>
+            <div class="o_lensmemoriae_wordcloud_body">
+                <canvas
+                    t-ref="canvas"
+                    t-on-click="onClick"
+                    t-on-mousemove="onHover"
+                    t-on-mouseleave="onLeave"
+                    class="o_lensmemoriae_wordcloud_canvas"
+                />
+                <div
+                    t-if="state.hovered"
+                    class="o_lensmemoriae_wordcloud_tooltip"
+                    t-att-style="'left:' + state.tooltipX + 'px;top:' + state.tooltipY + 'px'"
+                >
+                    <strong><t t-esc="state.hovered.word" /></strong>
+                    — <t t-esc="state.hovered.count" /> imatges
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

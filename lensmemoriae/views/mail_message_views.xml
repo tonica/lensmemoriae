@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="lensmemoriae_moderation_tree" model="ir.ui.view">
+        <field name="name">lensmemoriae.moderation.tree</field>
+        <field name="model">mail.message</field>
+        <field name="arch" type="xml">
+            <list>
+                <field
+                    name="lensmemoriae_image_preview"
+                    widget="image"
+                    class="oe_avatar"
+                />
+                <field name="author_id" />
+                <field name="body" optional="show" />
+                <field name="create_date" />
+                <button
+                    name="action_open_image"
+                    type="object"
+                    string="View Image"
+                    icon="fa-external-link"
+                />
+                <field
+                    name="moderation_state"
+                    decoration-danger="moderation_state == 'rejected'"
+                    decoration-warning="moderation_state == 'pending'"
+                />
+                <field name="moderation_reason" optional="show" />
+                <button
+                    name="action_moderate_approve"
+                    string="Approve"
+                    type="object"
+                    icon="fa-check"
+                    class="btn-success"
+                />
+                <button
+                    name="action_moderate_reject"
+                    string="Reject"
+                    type="object"
+                    icon="fa-times"
+                    class="btn-danger"
+                />
+            </list>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_moderation_search" model="ir.ui.view">
+        <field name="name">lensmemoriae.moderation.search</field>
+        <field name="model">mail.message</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="moderation_state" />
+                <filter
+                    name="needs_review"
+                    string="Needs Review"
+                    domain="[('moderation_state', 'in', ('pending', 'rejected'))]"
+                />
+                <filter
+                    name="pending"
+                    string="Pending"
+                    domain="[('moderation_state', '=', 'pending')]"
+                />
+                <filter
+                    name="approved"
+                    string="Approved"
+                    domain="[('moderation_state', '=', 'approved')]"
+                />
+                <filter
+                    name="rejected"
+                    string="Rejected"
+                    domain="[('moderation_state', '=', 'rejected')]"
+                />
+                <separator />
+                <filter name="all" string="All" />
+            </search>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_moderation_action" model="ir.actions.act_window">
+        <field name="name">Moderation Queue</field>
+        <field name="res_model">mail.message</field>
+        <field name="domain">[('model', '=', 'lensmemoriae.image')]</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="lensmemoriae_moderation_search" />
+        <field name="help" type="html">
+            <p>Review pending notes and decide whether to approve or reject them.</p>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_reject_reason_form" model="ir.ui.view">
+        <field name="name">lensmemoriae.reject.reason.form</field>
+        <field name="model">lensmemoriae.reject.reason</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="reason" />
+                </group>
+                <footer>
+                    <button
+                        name="action_confirm_reject"
+                        string="Confirm Reject"
+                        type="object"
+                        class="btn-danger"
+                    />
+                    <button special="cancel" string="Cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

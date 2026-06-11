@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="lensmemoriae_face_tree" model="ir.ui.view">
+        <field name="name">lensmemoriae.face.tree</field>
+        <field name="model">lensmemoriae.face</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="thumbnail" widget="image" class="oe_avatar" />
+                <field name="image_id" />
+                <field name="person_id" optional="show" />
+                <field
+                    name="state"
+                    decoration-warning="state == 'detected'"
+                    decoration-info="state == 'suggested'"
+                    decoration-success="state == 'identified'"
+                    decoration-muted="state == 'ignored'"
+                />
+                <field name="suggested_person_id" optional="show" />
+                <field name="confidence" optional="show" />
+                <field name="identified_by" optional="show" />
+                <field name="identified_date" optional="show" />
+                <button
+                    name="action_identify"
+                    type="object"
+                    string="Identify"
+                    icon="fa-tag"
+                    invisible="state not in ('detected', 'suggested')"
+                />
+                <button
+                    name="action_accept_suggestion"
+                    type="object"
+                    string="Accept"
+                    icon="fa-check"
+                    class="btn-success"
+                    invisible="state != 'suggested'"
+                />
+                <button
+                    name="action_clear_suggestion"
+                    type="object"
+                    string="Clear Suggestion"
+                    icon="fa-undo"
+                    invisible="state != 'suggested'"
+                />
+                <button
+                    name="action_ignore"
+                    type="object"
+                    string="Ignore"
+                    icon="fa-eye-slash"
+                    invisible="state not in ('detected', 'suggested')"
+                />
+            </list>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_face_search" model="ir.ui.view">
+        <field name="name">lensmemoriae.face.search</field>
+        <field name="model">lensmemoriae.face</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="person_id" />
+                <field name="suggested_person_id" />
+                <field name="image_id" />
+                <separator />
+                <filter
+                    name="state_detected"
+                    string="Detected"
+                    domain="[('state', '=', 'detected')]"
+                />
+                <filter
+                    name="state_suggested"
+                    string="Suggestions"
+                    domain="[('state', '=', 'suggested')]"
+                />
+                <filter
+                    name="state_identified"
+                    string="Identified"
+                    domain="[('state', '=', 'identified')]"
+                />
+                <filter
+                    name="state_ignored"
+                    string="Ignored"
+                    domain="[('state', '=', 'ignored')]"
+                />
+            </search>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_face_action" model="ir.actions.act_window">
+        <field name="name">Faces</field>
+        <field name="res_model">lensmemoriae.face</field>
+        <field name="view_mode">list</field>
+        <field name="domain">[]</field>
+        <field name="context">{'search_default_state_detected': 1}</field>
+    </record>
+
+    <record id="lensmemoriae_face_suggestions_action" model="ir.actions.act_window">
+        <field name="name">Suggestions</field>
+        <field name="res_model">lensmemoriae.face</field>
+        <field name="view_mode">list</field>
+        <field name="domain">[('state', '=', 'suggested')]</field>
+    </record>
+</odoo>

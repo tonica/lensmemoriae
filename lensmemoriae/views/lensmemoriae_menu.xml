@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <menuitem
+        id="lensmemoriae_root_menu"
+        name="LensMemoriae"
+        sequence="99"
+        web_icon="lensmemoriae,static/description/icon.png"
+    />
+    <menuitem
+        id="lensmemoriae_images_menu"
+        name="Images"
+        parent="lensmemoriae_root_menu"
+        action="lensmemoriae_image_action"
+    />
+    <menuitem
+        id="lensmemoriae_tags_menu"
+        name="Etiquetes"
+        parent="lensmemoriae_root_menu"
+        action="lensmemoriae_tag_action"
+    />
+    <menuitem
+        id="lensmemoriae_moderation_menu"
+        name="Moderation Queue"
+        parent="lensmemoriae_root_menu"
+        action="lensmemoriae_moderation_action"
+        groups="lensmemoriae.group_moderator"
+    />
+    <menuitem
+        id="lensmemoriae_map_menu"
+        name="Map"
+        parent="lensmemoriae_root_menu"
+        action="lensmemoriae_map_action"
+    />
+    <menuitem
+        id="lensmemoriae_wordcloud_menu"
+        name="Word Cloud"
+        parent="lensmemoriae_root_menu"
+        action="lensmemoriae_wordcloud_action"
+    />
+    <menuitem
+        id="lensmemoriae_stop_words_menu"
+        name="Stop Words"
+        parent="lensmemoriae_root_menu"
+        action="lensmemoriae_stop_word_action"
+        groups="lensmemoriae.group_moderator"
+    />
+    <record id="lensmemoriae_settings_action" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">main</field>
+        <field name="context">{'module': 'lensmemoriae'}</field>
+    </record>
+    <menuitem
+        id="lensmemoriae_settings_menu"
+        name="Settings"
+        parent="lensmemoriae_root_menu"
+        action="lensmemoriae_settings_action"
+        groups="base.group_system"
+    />
+</odoo>

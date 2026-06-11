@@ -1,0 +1,18 @@
+.lensmemoriae-overlay-faces {
+    color: #fff;
+    font-size: 10px;
+    opacity: 0.8;
+    margin-top: 2px;
+}
+
+.o_field_widget.o_field_image.oe_avatar {
+    width: 48px;
+    height: 48px;
+
+    img {
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+}

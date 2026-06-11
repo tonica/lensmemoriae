@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="lensmemoriae_image_tree" model="ir.ui.view">
+        <field name="name">lensmemoriae.image.tree</field>
+        <field name="model">lensmemoriae.image</field>
+        <field name="arch" type="xml">
+            <list create="false">
+                <header>
+                    <button
+                        name="action_scan"
+                        type="object"
+                        string="Scan Directory"
+                        class="btn-primary"
+                        display="always"
+                        groups="lensmemoriae.group_moderator"
+                    />
+                    <button
+                        name="action_open_scrap_wizard"
+                        type="object"
+                        string="Scrap"
+                        class="btn-secondary"
+                        display="always"
+                        groups="lensmemoriae.group_moderator"
+                    />
+                    <button
+                        name="action_clear_images"
+                        type="object"
+                        string="Clear All"
+                        class="btn-danger"
+                        display="always"
+                        groups="lensmemoriae.group_moderator"
+                        confirm="This will permanently delete all scanned image records, messages, and activities. Are you sure?"
+                    />
+                    <button
+                        name="action_generate_descriptions"
+                        type="object"
+                        string="Generate Descriptions"
+                        class="btn-secondary"
+                        display="always"
+                        groups="lensmemoriae.group_moderator"
+                    />
+                    <button
+                        name="action_download_pending"
+                        type="object"
+                        string="Download Pending"
+                        class="btn-success"
+                        display="always"
+                        groups="lensmemoriae.group_moderator"
+                    />
+                </header>
+                <field name="image" widget="image" class="lensmemoriae-list-image" />
+                <field name="image_download_state" optional="show" />
+                <field name="description" />
+                <field name="description_approved" optional="show" />
+                <field name="tag_ids" widget="many2many_tags" />
+                <field name="approved_notes" />
+            </list>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_image_form" model="ir.ui.view">
+        <field name="name">lensmemoriae.image.form</field>
+        <field name="model">lensmemoriae.image</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <field
+                            name="image_download_state"
+                            widget="statusbar"
+                            statusbar_visible="pending,downloading,downloaded,error"
+                        />
+                    </div>
+                    <field
+                        name="image"
+                        widget="image"
+                        class="lensmemoriae-lightbox-trigger"
+                    />
+                    <field
+                        name="download_progress"
+                        widget="progressbar"
+                        invisible="1"
+                    />
+                    <group string="Description">
+                        <field name="is_moderator" invisible="1" />
+                        <field
+                            name="description"
+                            placeholder="Describe what this image shows…"
+                            readonly="not is_moderator"
+                        />
+                        <field name="description_approved" invisible="1" />
+                        <button
+                            name="action_approve_description"
+                            type="object"
+                            string="Approve Description"
+                            class="btn-success"
+                            groups="lensmemoriae.group_moderator"
+                            invisible="description_approved"
+                        />
+                        <button
+                            name="action_reject_description"
+                            type="object"
+                            string="Reject Description"
+                            class="btn-danger"
+                            groups="lensmemoriae.group_moderator"
+                            invisible="not description_approved"
+                        />
+                    </group>
+                    <group>
+                        <field name="tag_ids" widget="many2many_tags" />
+                    </group>
+                    <group string="Location">
+                        <field
+                            name="latitude"
+                            widget="leaflet_map"
+                            nolabel="1"
+                            colspan="2"
+                        />
+                        <field name="longitude" invisible="1" />
+                        <button
+                            name="action_open_location_picker"
+                            type="object"
+                            string="Set Location"
+                            icon="fa-map-marker"
+                        />
+                    </group>
+                    <group string="XML Metadata" name="xml_metadata">
+                        <group string="Identificació">
+                            <field name="codi_referencia" readonly="1" />
+                            <field name="codi_grup" readonly="1" />
+                            <field name="arxiu" readonly="1" />
+                            <field name="codi_arxiu" readonly="1" />
+                            <field name="fons" readonly="1" />
+                            <field name="codi_fons" readonly="1" />
+                            <field name="tipus_unitat" readonly="1" />
+                            <field name="cod_unitat" readonly="1" />
+                            <field name="unitat_installacio" readonly="1" />
+                            <field name="nivell_descripcio" readonly="1" />
+                            <field name="titol_unitat_documental" readonly="1" />
+                        </group>
+                        <group string="Datació">
+                            <field name="cronologia" readonly="1" />
+                            <field name="data_inici" readonly="1" />
+                            <field name="data_fi" readonly="1" />
+                            <field name="continu_discontinu" readonly="1" />
+                            <field name="sense_data" readonly="1" />
+                        </group>
+                        <group string="Classificació">
+                            <field name="classificacio" readonly="1" />
+                            <field name="codi_classificacio" readonly="1" />
+                            <field name="procedencia" readonly="1" />
+                            <field name="codi_procedencia" readonly="1" />
+                            <field name="serie_cataleg" readonly="1" />
+                            <field name="codi_serie_cataleg" readonly="1" />
+                            <field name="expedient_inicial" readonly="1" />
+                            <field name="expedient_final" readonly="1" />
+                        </group>
+                        <group string="Descripció">
+                            <field name="xml_descripcio" readonly="1" />
+                            <field name="observacions" readonly="1" />
+                        </group>
+                        <group string="Autoria i Contingut">
+                            <field name="autoria" readonly="1" />
+                            <field name="onomastics" readonly="1" />
+                            <field name="toponimics" readonly="1" />
+                            <field name="llogaret" readonly="1" />
+                            <field name="lloc_precis" readonly="1" />
+                            <field name="tematics" readonly="1" />
+                            <field name="generes" readonly="1" />
+                        </group>
+                        <group string="Localització Geogràfica">
+                            <field name="municipi_longitud" readonly="1" />
+                            <field name="municipi_latitud" readonly="1" />
+                            <field name="llogaret_longitud" readonly="1" />
+                            <field name="llogaret_latitud" readonly="1" />
+                        </group>
+                        <group string="Publicació">
+                            <field name="data_publicacio" readonly="1" />
+                            <field name="data_descarrega" readonly="1" />
+                            <field name="total_objectes_digitals" readonly="1" />
+                            <field name="codi_reprografia" readonly="1" />
+                            <field name="enllac_objecte_digital" readonly="1" />
+                        </group>
+                        <group string="Altres">
+                            <field name="reportatge" readonly="1" />
+                            <field name="volum" readonly="1" />
+                            <field name="exemplars" readonly="1" />
+                            <field name="editors" readonly="1" />
+                            <field name="impremta" readonly="1" />
+                            <field name="diposit_legal" readonly="1" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_image_kanban" model="ir.ui.view">
+        <field name="name">Imatges</field>
+        <field name="model">lensmemoriae.image</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile lensmemoriae-kanban" multi_select="true" create="false">
+                <header>
+                    <button
+                        name="action_scan"
+                        type="object"
+                        string="Scan Directory"
+                        class="btn-primary"
+                        display="always"
+                        groups="lensmemoriae.group_moderator"
+                    />
+                    <button
+                        name="action_open_scrap_wizard"
+                        type="object"
+                        string="Scrap"
+                        class="btn-secondary"
+                        display="always"
+                        groups="lensmemoriae.group_moderator"
+                    />
+                    <button
+                        name="action_clear_images"
+                        type="object"
+                        string="Clear All"
+                        class="btn-danger"
+                        display="always"
+                        groups="lensmemoriae.group_moderator"
+                        confirm="This will permanently delete all scanned image records, messages, and activities. Are you sure?"
+                    />
+                    <button
+                        name="action_generate_descriptions"
+                        type="object"
+                        string="Generate Descriptions"
+                        class="btn-secondary"
+                        display="always"
+                        groups="lensmemoriae.group_moderator"
+                    />
+                    <button
+                        name="action_download_pending"
+                        type="object"
+                        string="Download Pending"
+                        class="btn-success"
+                        display="always"
+                        groups="lensmemoriae.group_moderator"
+                    />
+                </header>
+                <field name="name" />
+                <field name="image_download_state" />
+                <field name="description" />
+                <field name="description_approved" />
+                <field name="tag_ids" />
+                <field name="file_size" />
+                <field name="mtime" />
+                <templates>
+                    <t t-name="card">
+                        <div
+                            class="oe_kanban_global_click"
+                            t-att-data-id="record.id.raw_value"
+                        >
+                            <div class="lensmemoriae-grid-img-wrapper">
+                                <img
+                                    t-att-src="'/web/image/lensmemoriae.image/' + record.id.raw_value + '/image/350x350'"
+                                    alt="record.name.value"
+                                    class="lensmemoriae-grid-img"
+                                />
+                                    <div class="lensmemoriae-hover-overlay">
+                                        <div class="lensmemoriae-overlay-name">
+                                            <t t-esc="record.name.value" />
+                                        </div>
+                                        <t
+                                        t-if="record.description.raw_value and record.description_approved.raw_value"
+                                    >
+                                            <div class="lensmemoriae-overlay-desc">
+                                                <t t-esc="record.description.value" />
+                                            </div>
+                                        </t>
+                                        <t
+                                        t-if="record.description.raw_value and record.description_approved.raw_value == False"
+                                    >
+                                            <div
+                                            class="lensmemoriae-overlay-desc lensmemoriae-desc-pending"
+                                        >
+                                                Pending approval
+                                            </div>
+                                        </t>
+                                        <div class="lensmemoriae-overlay-tags">
+                                            <field
+                                            name="tag_ids"
+                                            widget="many2many_tags"
+                                        />
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_image_search" model="ir.ui.view">
+        <field name="name">lensmemoriae.image.search</field>
+        <field name="model">lensmemoriae.image</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="description" />
+                <field name="codi_referencia" />
+                <field name="cronologia" />
+                <field name="tag_ids" widget="many2many_tags" />
+                <separator />
+                <filter
+                    name="filter_untagged"
+                    string="Untagged"
+                    domain="[('tag_ids', '=', False)]"
+                />
+                <filter
+                    name="filter_desc_pending"
+                    string="Pending Description"
+                    domain="[('description', '!=', False), ('description_approved', '=', False)]"
+                />
+                <filter
+                    name="filter_desc_approved"
+                    string="Approved Description"
+                    domain="[('description_approved', '=', True)]"
+                />
+                <filter
+                    name="filter_desc_missing"
+                    string="No Description"
+                    domain="[('description', '=', False)]"
+                />
+                <separator />
+                <filter
+                    name="filter_dl_pending"
+                    string="Pending Download"
+                    domain="[('image_download_state', '=', 'pending')]"
+                />
+                <filter
+                    name="filter_dl_downloaded"
+                    string="Downloaded"
+                    domain="[('image_download_state', '=', 'downloaded')]"
+                />
+                <filter
+                    name="filter_dl_error"
+                    string="Download Error"
+                    domain="[('image_download_state', '=', 'error')]"
+                />
+                <separator />
+                <filter
+                    name="group_tag"
+                    string="Tag"
+                    context="{'group_by': 'tag_ids'}"
+                />
+            </search>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_map_action" model="ir.actions.client">
+        <field name="name">Map</field>
+        <field name="tag">lensmemoriae.map_view</field>
+        <field name="target">current</field>
+    </record>
+
+    <record id="lensmemoriae_image_action" model="ir.actions.act_window">
+        <field name="name">Images</field>
+        <field name="res_model">lensmemoriae.image</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'no_create': True}</field>
+        <field name="help" type="html">
+            <p>Click <b
+                >Scan Directory</b> to import images from the configured path.</p>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_wordcloud_action" model="ir.actions.client">
+        <field name="name">Word Cloud</field>
+        <field name="tag">lensmemoriae.word_cloud</field>
+        <field name="target">current</field>
+    </record>
+</odoo>

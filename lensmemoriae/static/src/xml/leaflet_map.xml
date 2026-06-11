@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="lensmemoriae.LeafletMapField">
+        <div
+            class="o_leaflet_map_field"
+            t-att-class="props.readonly ? 'readonly' : 'editable'"
+        >
+            <div t-if="!props.readonly" class="o_leaflet_search_bar">
+                <input
+                    type="text"
+                    class="o_leaflet_search_input"
+                    placeholder="Search address…"
+                    t-on-keyup="(ev) => this.onSearchInput(ev)"
+                />
+                <button
+                    class="btn btn-secondary btn-sm"
+                    t-on-click="onSearch"
+                    t-att-disabled="state.searching || undefined"
+                >
+                    <i t-if="state.searching" class="fa fa-spinner fa-spin" />
+                    <i t-else="" class="fa fa-search" />
+                </button>
+            </div>
+            <div
+                t-if="state.searchResults &amp;&amp; state.searchResults.length"
+                class="o_leaflet_search_results"
+            >
+                <div
+                    t-foreach="state.searchResults"
+                    t-as="result"
+                    t-key="result.place_id"
+                    class="o_leaflet_search_result"
+                    t-on-click="() => this.onSelectResult(result)"
+                >
+                    <t t-esc="result.display_name" />
+                </div>
+            </div>
+            <div
+                t-if="!props.readonly || (props.readonly &amp;&amp; state.lat &amp;&amp; state.lng)"
+                class="o_leaflet_map_container"
+                t-ref="mapContainer"
+            >
+                <div class="o_leaflet_map_loading" t-if="state.loading">
+                    <i class="fa fa-spinner fa-spin" /> Loading map…
+                </div>
+            </div>
+            <div
+                t-if="!props.readonly &amp;&amp; state.lat &amp;&amp; state.lng"
+                class="o_leaflet_coords text-muted small"
+            >
+                <t t-esc="state.lat" />, <t t-esc="state.lng" />
+            </div>
+            <div
+                t-if="props.readonly &amp;&amp; state.lat &amp;&amp; state.lng"
+                class="o_leaflet_coords text-muted small"
+            >
+                <t t-esc="state.lat" />, <t t-esc="state.lng" />
+            </div>
+            <div
+                t-if="props.readonly &amp;&amp; !state.lat"
+                class="o_leaflet_map_empty"
+            >
+                <span>No location set</span>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="lensmemoriae.MapView">
+        <div class="o_lensmemoriae_map_view">
+            <div class="o_lensmemoriae_map_toolbar">
+                <button class="btn btn-secondary btn-sm" t-on-click="onFitAll">
+                    <i class="fa fa-expand" /> Fit all markers
+                </button>
+                <span class="text-muted small ms-2">
+                    <t t-esc="state.markers.length" /> images with location
+                </span>
+            </div>
+            <div class="o_lensmemoriae_map_container" t-ref="mapContainer" />
+        </div>
+    </t>
+</templates>

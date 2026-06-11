@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="lensmemoriae_bulk_tag_view_form" model="ir.ui.view">
+        <field name="name">lensmemoriae.bulk.tag.form</field>
+        <field name="model">lensmemoriae.bulk.tag</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="operation" widget="radio" />
+                    <field name="tag_ids" widget="many2many_tags" nolabel="1" />
+                </group>
+                <footer>
+                    <button
+                        name="action_apply"
+                        type="object"
+                        string="Apply"
+                        class="btn-primary"
+                    />
+                    <button special="cancel" string="Cancel" class="btn-secondary" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

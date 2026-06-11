@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.lensmemoriae</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="50" />
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//app[@name='general_settings']" position="after">
+                <app name="lensmemoriae" string="LensMemoriae">
+                    <setting
+                        id="lensmemoriae_blur_setting"
+                        string="Blur"
+                        help="Apply blur effect to public thumbnail images."
+                    >
+                        <field name="lensmemoriae_public_blur_enabled" />
+                        <div class="w-100">
+                            <label
+                                for="lensmemoriae_public_blur_intensity"
+                                string="Intensity (0–50)"
+                            />
+                            <field
+                                name="lensmemoriae_public_blur_intensity"
+                                widget="integer"
+                            />
+                        </div>
+                    </setting>
+                    <setting
+                        id="lensmemoriae_watermark_setting"
+                        string="Watermark"
+                        help="Apply watermark overlay to public thumbnail images."
+                    >
+                        <field name="lensmemoriae_public_watermark_enabled" />
+                        <div
+                            class="w-100"
+                            invisible="not lensmemoriae_public_watermark_enabled"
+                        >
+                            <label
+                                for="lensmemoriae_public_watermark_opacity"
+                                string="Opacity (0–100%)"
+                            />
+                            <field
+                                name="lensmemoriae_public_watermark_opacity"
+                                widget="integer"
+                            />
+                        </div>
+                        <div
+                            class="w-100"
+                            invisible="not lensmemoriae_public_watermark_enabled"
+                        >
+                            <label for="lensmemoriae_public_watermark_font_scale" />
+                            <field
+                                name="lensmemoriae_public_watermark_font_scale"
+                                widget="integer"
+                            />
+                        </div>
+                        <div
+                            class="w-100"
+                            invisible="not lensmemoriae_public_watermark_enabled"
+                        >
+                            <label for="lensmemoriae_public_watermark_spacing_x" />
+                            <field name="lensmemoriae_public_watermark_spacing_x" />
+                        </div>
+                        <div
+                            class="w-100"
+                            invisible="not lensmemoriae_public_watermark_enabled"
+                        >
+                            <label for="lensmemoriae_public_watermark_spacing_y" />
+                            <field name="lensmemoriae_public_watermark_spacing_y" />
+                        </div>
+                        <div
+                            class="w-100"
+                            invisible="not lensmemoriae_public_watermark_enabled"
+                        >
+                            <label for="lensmemoriae_public_watermark_angle" />
+                            <field
+                                name="lensmemoriae_public_watermark_angle"
+                                widget="integer"
+                            />
+                        </div>
+                    </setting>
+                    <setting
+                        id="lensmemoriae_watermark_text_setting"
+                        string="Watermark Text"
+                    >
+                        <field
+                            name="lensmemoriae_watermark_text"
+                            placeholder="Alfons Güell"
+                        />
+                    </setting>
+                    <setting
+                        id="lensmemoriae_jpeg_quality_setting"
+                        string="JPEG Quality"
+                        help="Output quality for public thumbnails (10–100)."
+                    >
+                        <field
+                            name="lensmemoriae_public_jpeg_quality"
+                            widget="integer"
+                        />
+                    </setting>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>
