@@ -1,3 +1,11 @@
+## 19.0.1.0.9 (2026-08-06)
+
+- Remove the deprecated _Generate Descriptions_ feature: the _Show Generate Descriptions
+  button_ user setting, the _Generate Descriptions_ header button and the
+  `action_generate_descriptions`/`_random_landscape_phrase` methods. Existing
+  descriptions are kept; descriptions are now only provided by the XML _Scrap_ import or
+  written by moderators.
+
 ## 19.0.1.0.8 (2026-08-06)
 
 - Remove the filesystem scanning feature and everything related: the _Show Scan

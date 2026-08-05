@@ -21,5 +21,4 @@ screen:
 - _Scrap_: import archival metadata from XML files (set a limit or leave 0 for no
   limit).
 - _Download Pending_: download images pending from the _Arxiu en Línia_ API.
-- _Generate Descriptions_: auto-fill descriptions of images that lack one.
 - _Clear All_: remove all images.

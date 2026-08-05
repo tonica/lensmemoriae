@@ -12,10 +12,6 @@ class ResUsers(models.Model):
         string="Show Clear All button",
         default=False,
     )
-    lensmemoriae_show_generate_desc = fields.Boolean(
-        string="Show Generate Descriptions button",
-        default=True,
-    )
     lensmemoriae_show_download = fields.Boolean(
         string="Show Download Pending button",
         default=True,

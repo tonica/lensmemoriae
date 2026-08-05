@@ -9,7 +9,6 @@
                 <group string="LensMemoriae">
                     <field name="lensmemoriae_show_scrap" />
                     <field name="lensmemoriae_show_clear_all" />
-                    <field name="lensmemoriae_show_generate_desc" />
                     <field name="lensmemoriae_show_download" />
                 </group>
             </xpath>

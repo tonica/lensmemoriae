@@ -14,7 +14,6 @@ class IrUiView(models.Model):
         prefs = {
             "action_open_scrap_wizard": user.lensmemoriae_show_scrap,
             "action_clear_images": user.lensmemoriae_show_clear_all,
-            "action_generate_descriptions": user.lensmemoriae_show_generate_desc,
             "action_download_pending": user.lensmemoriae_show_download,
         }
         doc = etree.fromstring(arch)

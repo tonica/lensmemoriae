@@ -24,14 +24,6 @@
                         confirm="This will permanently delete all scanned image records, messages, and activities. Are you sure?"
                     />
                     <button
-                        name="action_generate_descriptions"
-                        type="object"
-                        string="Generate Descriptions"
-                        class="btn-secondary"
-                        display="always"
-                        groups="lensmemoriae.group_moderator"
-                    />
-                    <button
                         name="action_download_pending"
                         type="object"
                         string="Download Pending"
@@ -213,14 +205,6 @@
                         display="always"
                         groups="lensmemoriae.group_moderator"
                         confirm="This will permanently delete all scanned image records, messages, and activities. Are you sure?"
-                    />
-                    <button
-                        name="action_generate_descriptions"
-                        type="object"
-                        string="Generate Descriptions"
-                        class="btn-secondary"
-                        display="always"
-                        groups="lensmemoriae.group_moderator"
                     />
                     <button
                         name="action_download_pending"
