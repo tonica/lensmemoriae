@@ -172,8 +172,8 @@ class LensMemoriaeImage(models.Model):
         return recs
 
     def write(self, vals):
-        if "description" in vals and not self.env.user.has_group(
-            "lensmemoriae.group_moderator"
+        if "description" in vals and not (
+            self.env.su or self.env.user.has_group("lensmemoriae.group_moderator")
         ):
             raise UserError(
                 self.env._("Only moderators can edit the description of an image.")
