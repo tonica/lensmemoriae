@@ -1,5 +1,4 @@
 def post_init_hook(env):
-    env["lensmemoriae.image"].sudo().scan_directory()
     ICP = env["ir.config_parameter"].sudo()
     for key, val in [
         ("lensmemoriae.homepage_title", "Arxiu fotogràfic històric"),

@@ -1,7 +1,6 @@
 import base64
 import json
 import logging
-import mimetypes
 import os
 import time
 
@@ -29,21 +28,6 @@ def _safe_float(val, default):
 
 
 class LensMemoriaeController(http.Controller):
-    @http.route("/lens-memoriae/image/<path:relpath>", auth="user")
-    def serve_image(self, relpath, **kw):
-        ICP = request.env["ir.config_parameter"].sudo()
-        base = ICP.get_param("lensmemoriae.base_path", "/opt/odoo/custom/imatges")
-        base_abs = os.path.abspath(base)
-        full = os.path.abspath(os.path.join(base_abs, relpath))
-        if not full.startswith(base_abs) or not os.path.isfile(full):
-            return request.not_found()
-        mime, _ = mimetypes.guess_type(full)
-        with open(full, "rb") as f:
-            data = f.read()
-        return request.make_response(
-            data, [("Content-Type", mime or "application/octet-stream")]
-        )
-
     @http.route(
         "/lens-memoriae/thumbnail/<int:image_id>/<int:width>x<int:height>",
         auth="user",

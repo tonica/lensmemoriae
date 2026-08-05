@@ -1,13 +1,12 @@
 {
     "name": "LensMemoriae",
-    "version": "19.0.1.0.7",
+    "version": "19.0.1.0.8",
     "summary": "Recover the memory of photographs",
     "description": """
 Recover the memory of your photographs: manage, tag, and share your images
 directly from Odoo.
 
 Main features:
-- Automatic directory scanning for images
 - Tagging and filtering by categories
 - Image moderation with approval workflow
 - Geolocation with interactive Leaflet map

@@ -7,14 +7,6 @@
             <list create="false">
                 <header>
                     <button
-                        name="action_scan"
-                        type="object"
-                        string="Scan Directory"
-                        class="btn-primary"
-                        display="always"
-                        groups="lensmemoriae.group_moderator"
-                    />
-                    <button
                         name="action_open_scrap_wizard"
                         type="object"
                         string="Scrap"
@@ -199,16 +191,12 @@
         <field name="name">Imatges</field>
         <field name="model">lensmemoriae.image</field>
         <field name="arch" type="xml">
-            <kanban class="o_kanban_mobile lensmemoriae-kanban" multi_select="true" create="false">
+            <kanban
+                class="o_kanban_mobile lensmemoriae-kanban"
+                multi_select="true"
+                create="false"
+            >
                 <header>
-                    <button
-                        name="action_scan"
-                        type="object"
-                        string="Scan Directory"
-                        class="btn-primary"
-                        display="always"
-                        groups="lensmemoriae.group_moderator"
-                    />
                     <button
                         name="action_open_scrap_wizard"
                         type="object"
@@ -365,8 +353,7 @@
         <field name="view_mode">kanban,list,form</field>
         <field name="context">{'no_create': True}</field>
         <field name="help" type="html">
-            <p>Click <b
-                >Scan Directory</b> to import images from the configured path.</p>
+            <p>Click <b>Scrap</b> to import images from the archive.</p>
         </field>
     </record>
 

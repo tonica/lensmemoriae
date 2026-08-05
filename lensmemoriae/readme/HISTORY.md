@@ -1,3 +1,11 @@
+## 19.0.1.0.8 (2026-08-06)
+
+- Remove the filesystem scanning feature and everything related: the _Show Scan
+  Directory button_ user setting, the _Scan Directory_ header button, the
+  `scan_directory`/`action_scan` methods and the `/lens-memoriae/image/<path>`
+  controller. Images are imported exclusively through the _Scrap_ wizard (XML) and the
+  _Arxiu en Línia_ API download.
+
 ## 19.0.1.0.7 (2026-08-05)
 
 - Allow regular users to save the _Scrap_ wizard (`perm_write` on the wizard access

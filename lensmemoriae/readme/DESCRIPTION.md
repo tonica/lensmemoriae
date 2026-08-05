@@ -1,10 +1,9 @@
-Recover the memory of your photographs: LensMemoriae brings images stored on the
-filesystem into Odoo and provides a rich, gallery-style interface to browse, tag,
+Recover the memory of your photographs: LensMemoriae brings your photographs and their
+archival metadata into Odoo and provides a rich, gallery-style interface to browse, tag,
 moderate, geolocate and share them.
 
 Main features:
 
-- Automatic filesystem scanning of an image directory
 - Import of archival metadata from a Catalan _Arxiu en Línia_ (gencat) XML export
   through the _Scrap_ wizard
 - Automatic image download from the _Arxiu en Línia_ API (cron + manual)

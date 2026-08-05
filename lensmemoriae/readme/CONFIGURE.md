@@ -1,7 +1,3 @@
-The image base path is stored in the system parameter `lensmemoriae.base_path` (default
-`/opt/odoo/custom/imatges`). Mount your image directory there (or change the parameter)
-and run _Scan Directory_ from the _Images_ screen.
-
 The _Scrap_ wizard reads XML files from the folder `/opt/odoo/custom/source`.
 
 Go to _LensMemoriae \> Settings_ (available to administrators) to configure the

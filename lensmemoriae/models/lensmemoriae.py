@@ -1,13 +1,11 @@
 import base64
 import json
 import logging
-import mimetypes
 import os
 import random
 import re
 import xml.etree.ElementTree as ET
 from collections import Counter
-from datetime import datetime
 
 import requests
 from lxml import etree
@@ -514,10 +512,6 @@ class LensMemoriaeImage(models.Model):
             },
         }
 
-    def _get_base_path(self):
-        ICP = self.env["ir.config_parameter"].sudo()
-        return ICP.get_param("lensmemoriae.base_path", "/opt/odoo/custom/imatges")
-
     @api.depends("image_download_state")
     def _compute_download_progress(self):
         total = self.search_count([])
@@ -530,46 +524,6 @@ class LensMemoriaeImage(models.Model):
             progress = 0.0
         for rec in self:
             rec.download_progress = progress
-
-    @api.model
-    def scan_directory(self):
-        base = self._get_base_path()
-        base_abs = os.path.abspath(base)
-        if not os.path.isdir(base_abs):
-            return 0
-        allowed = (".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".svg")
-        created = 0
-        for root, _dirs, files in os.walk(base_abs):
-            for fname in files:
-                if not fname.lower().endswith(allowed):
-                    continue
-                full = os.path.join(root, fname)
-                rel = os.path.relpath(full, base_abs)
-                existing = self.search([("relpath", "=", rel)], limit=1)
-                if existing:
-                    continue
-                try:
-                    size = os.path.getsize(full)
-                    mtime = datetime.fromtimestamp(os.path.getmtime(full))
-                except Exception:
-                    size = 0
-                    mtime = fields.Datetime.now()
-                mime, _ = mimetypes.guess_type(full)
-                with open(full, "rb") as f:
-                    image_data = base64.b64encode(f.read())
-                self.sudo().create(
-                    {
-                        "name": fname,
-                        "relpath": rel,
-                        "file_size": size,
-                        "mtime": mtime,
-                        "mimetype": mime or "application/octet-stream",
-                        "image": image_data,
-                        "image_download_state": "downloaded",
-                    }
-                )
-                created += 1
-        return created
 
     @api.model
     def _download_image_from_api(self, record_id):
@@ -704,44 +658,6 @@ class LensMemoriaeImage(models.Model):
             "context": ctx,
         }
 
-    def action_scan(self):
-        base = self._get_base_path()
-        base_abs = os.path.abspath(base)
-        if not os.path.isdir(base_abs):
-            return {
-                "type": "ir.actions.client",
-                "tag": "display_notification",
-                "params": {
-                    "title": "Directory Not Found",
-                    "message": (
-                        f"Configured path: {base}\nThe directory does not exist."
-                    ),
-                    "type": "danger",
-                    "sticky": True,
-                },
-            }
-        created = self.scan_directory()
-        total = self.search_count([])
-        return {
-            "type": "ir.actions.client",
-            "tag": "display_notification",
-            "params": {
-                "title": "Scan Complete",
-                "message": (
-                    f"Scanned: {base}\n"
-                    f"New images: {created}\n"
-                    f"Total in database: {total}"
-                ),
-                "type": "success" if created else "info",
-                "next": {
-                    "type": "ir.actions.act_window",
-                    "res_model": "lensmemoriae.image",
-                    "views": [[False, "list"], [False, "kanban"], [False, "form"]],
-                    "target": "current",
-                },
-            },
-        }
-
     def action_open_scrap_wizard(self):
         return {
             "type": "ir.actions.act_window",
@@ -850,6 +766,43 @@ class LensMemoriaeImage(models.Model):
         self.env.cr.commit()
         return len(chunk)
 
+    def _process_scrap_file(self, fpath, fname, limit, batch_size):
+        try:
+            xml_root = ET.parse(fpath).getroot()
+        except Exception:
+            _logger.exception("Scrap failed while processing %s", fpath)
+            self.env.cr.rollback()
+            return 0
+        processed = 0
+        try:
+            chunk = []
+            for el in xml_root.findall(".//element"):
+                if limit and processed >= limit:
+                    break
+                vals = self._xml_element_to_vals(el, fname)
+                if not vals.get("codi_referencia"):
+                    continue
+                chunk.append(vals)
+                if len(chunk) >= batch_size or (
+                    limit and processed + len(chunk) >= limit
+                ):
+                    processed += self._upsert_scrap_chunk_safe(chunk)
+                    chunk = []
+            if chunk:
+                processed += self._upsert_scrap_chunk_safe(chunk)
+        except Exception:
+            _logger.exception("Scrap failed while processing %s", fpath)
+            self.env.cr.rollback()
+        return processed
+
+    def _upsert_scrap_chunk_safe(self, chunk):
+        try:
+            return self._upsert_scrap_chunk(chunk)
+        except Exception:
+            _logger.exception("Scrap failed for a batch of %d elements", len(chunk))
+            self.env.cr.rollback()
+            return 0
+
     def action_scrap(self):
         source_path = "/opt/odoo/custom/source"
         source_abs = os.path.abspath(source_path)
@@ -878,41 +831,7 @@ class LensMemoriaeImage(models.Model):
                 if filename_filter and filename_filter not in fname:
                     continue
                 fpath = os.path.join(root, fname)
-                try:
-                    tree = ET.parse(fpath)
-                    xml_root = tree.getroot()
-                    chunk = []
-                    for el in xml_root.findall(".//element"):
-                        if limit and processed >= limit:
-                            break
-                        vals = self._xml_element_to_vals(el, fname)
-                        if not vals.get("codi_referencia"):
-                            continue
-                        chunk.append(vals)
-                        if len(chunk) >= batch_size or (
-                            limit and processed + len(chunk) >= limit
-                        ):
-                            try:
-                                processed += self._upsert_scrap_chunk(chunk)
-                            except Exception:
-                                _logger.exception(
-                                    "Scrap failed for a batch of %d elements",
-                                    len(chunk),
-                                )
-                                self.env.cr.rollback()
-                            chunk = []
-                    if chunk:
-                        try:
-                            processed += self._upsert_scrap_chunk(chunk)
-                        except Exception:
-                            _logger.exception(
-                                "Scrap failed for a batch of %d elements",
-                                len(chunk),
-                            )
-                            self.env.cr.rollback()
-                except Exception:
-                    _logger.exception("Scrap failed while processing %s", fpath)
-                    self.env.cr.rollback()
+                processed += self._process_scrap_file(fpath, fname, limit, batch_size)
                 if limit and processed >= limit:
                     break
             if limit and processed >= limit:

@@ -18,7 +18,6 @@ To use LensMemoriae:
 Maintenance actions for moderators are available as header buttons on the _Images_
 screen:
 
-- _Scan Directory_: index new images from the base path.
 - _Scrap_: import archival metadata from XML files (set a limit or leave 0 for no
   limit).
 - _Download Pending_: download images pending from the _Arxiu en Línia_ API.
