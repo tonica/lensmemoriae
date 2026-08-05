@@ -1,3 +1,4 @@
+- Make the XML _Scrap_ source path configurable instead of hardcoded
 - Batch image import/export
 - Advanced search with metadata filters
 - API endpoints for external integrations

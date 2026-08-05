@@ -13,7 +13,6 @@ Main features:
 - Geolocation with interactive Leaflet map
 - Public gallery and self-registration
 - Word cloud from approved notes
-- Automatic face detection and person grouping
 - Bulk tagging operations
 """,
     "author": "Toni Carbonell Güell",

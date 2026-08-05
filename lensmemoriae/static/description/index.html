@@ -1,0 +1,526 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
+<title>LensMemoriae</title>
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 9511 2024-01-13 09:50:07Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+Despite the name, some widely supported CSS2 features are used.
+
+See https://docutils.sourceforge.io/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: gray; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic, pre.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="lensmemoriae">
+<h1 class="title">LensMemoriae</h1>
+
+<!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! This file is generated by oca-gen-addon-readme !!
+!! changes will be overwritten.                   !!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!! source digest: sha256:2924aa18b07c531f68f74009efea2c317ea98173e30841185023553f1440a294
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<p><a class="reference external image-reference" href="https://odoo-community.org/page/development-status"><img alt="Beta" src="https://img.shields.io/badge/maturity-beta-brightgreen.png" /></a> <img alt="LGPL-3" src="https://img.shields.io/badge/license-LGPL--3-blue.png" /></p>
+<p>Recover the memory of your photographs: LensMemoriae brings images
+stored on the filesystem into Odoo and provides a rich, gallery-style
+interface to browse, tag, moderate, geolocate and share them.</p>
+<p>Main features:</p>
+<ul class="simple">
+<li>Automatic filesystem scanning of an image directory</li>
+<li>Import of archival metadata from a Catalan <em>Arxiu en Línia</em> (gencat)
+XML export through the <em>Scrap</em> wizard</li>
+<li>Automatic image download from the <em>Arxiu en Línia</em> API (cron + manual)</li>
+<li>Tagging with bulk add/remove from the kanban multi-select toolbar</li>
+<li>Moderation of image notes (pending/approved/rejected) with a
+moderation queue</li>
+<li>Moderation of image descriptions (only moderators can edit, with an
+approve/reject workflow)</li>
+<li>Geolocation with an interactive Leaflet map (form widget, location
+picker and a full-screen map view)</li>
+<li>Word cloud built from approved descriptions with configurable stop
+words</li>
+<li>Public gallery homepage with a rotating image carousel</li>
+<li>Public self-registration page (with honeypot and rate limiting)</li>
+<li>Protection of public thumbnails (blur, watermark and rate limiting)</li>
+<li>Kanban UI with a full-screen lightbox, card-size slider and
+multi-select bulk toolbar</li>
+</ul>
+<p><strong>Table of contents</strong></p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#configuration" id="toc-entry-1">Configuration</a></li>
+<li><a class="reference internal" href="#usage" id="toc-entry-2">Usage</a></li>
+<li><a class="reference internal" href="#known-issues-roadmap" id="toc-entry-3">Known issues / Roadmap</a></li>
+<li><a class="reference internal" href="#changelog" id="toc-entry-4">Changelog</a><ul>
+<li><a class="reference internal" href="#section-1" id="toc-entry-5">19.0.1.0.7 (2026-08-05)</a></li>
+<li><a class="reference internal" href="#section-2" id="toc-entry-6">19.0.1.0.6 (2026-06-12)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#credits" id="toc-entry-7">Credits</a><ul>
+<li><a class="reference internal" href="#authors" id="toc-entry-8">Authors</a></li>
+<li><a class="reference internal" href="#contributors" id="toc-entry-9">Contributors</a></li>
+<li><a class="reference internal" href="#maintainers" id="toc-entry-10">Maintainers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="configuration">
+<h1><a class="toc-backref" href="#toc-entry-1">Configuration</a></h1>
+<p>The image base path is stored in the system parameter
+<tt class="docutils literal">lensmemoriae.base_path</tt> (default <tt class="docutils literal">/opt/odoo/custom/imatges</tt>). Mount
+your image directory there (or change the parameter) and run <em>Scan
+Directory</em> from the <em>Images</em> screen.</p>
+<p>The <em>Scrap</em> wizard reads XML files from the folder
+<tt class="docutils literal">/opt/odoo/custom/source</tt>.</p>
+<p>Go to <em>LensMemoriae &gt; Settings</em> (available to administrators) to
+configure the protection of public thumbnails:</p>
+<ul class="simple">
+<li>Blur: enable/disable and intensity</li>
+<li>Watermark: enable/disable, opacity, font scale, spacing and angle</li>
+<li>Watermark text</li>
+<li>JPEG output quality</li>
+</ul>
+<p>Assign the <em>Moderator</em> group to users who should approve or reject image
+notes and descriptions, use the moderation queue and run maintenance
+actions.</p>
+</div>
+<div class="section" id="usage">
+<h1><a class="toc-backref" href="#toc-entry-2">Usage</a></h1>
+<p>To use LensMemoriae:</p>
+<ol class="arabic simple">
+<li>Go to <em>LensMemoriae &gt; Images</em> to browse all indexed images in the
+gallery. Use the card-size slider to adjust the grid and the lightbox
+to view full resolution images. Select several images to add or
+remove tags in bulk.</li>
+<li>Click an image to open its detail view: view tags, approved notes,
+the interactive map, the description and the XML metadata imported
+from the archive.</li>
+<li>On the image form, use <em>Set Location</em> to place the image on the map.</li>
+<li>Use <em>LensMemoriae &gt; Map</em> to explore all geolocated images on a
+full-screen Leaflet map.</li>
+<li>Use <em>LensMemoriae &gt; Word Cloud</em> to visualize the words of approved
+descriptions; click a word to filter the images that contain it.</li>
+<li>Moderators can approve or reject pending notes from the <em>Moderation
+Queue</em> and manage the word cloud stop words under <em>LensMemoriae &gt;
+Stop Words</em>.</li>
+<li>The public gallery is available at <tt class="docutils literal"><span class="pre">/lensmemoriae-home</span></tt> and self
+registration at <tt class="docutils literal"><span class="pre">/lens-memoriae/signup</span></tt>.</li>
+</ol>
+<p>Maintenance actions for moderators are available as header buttons on
+the <em>Images</em> screen:</p>
+<ul class="simple">
+<li><em>Scan Directory</em>: index new images from the base path.</li>
+<li><em>Scrap</em>: import archival metadata from XML files (set a limit or leave
+0 for no limit).</li>
+<li><em>Download Pending</em>: download images pending from the <em>Arxiu en Línia</em>
+API.</li>
+<li><em>Generate Descriptions</em>: auto-fill descriptions of images that lack
+one.</li>
+<li><em>Clear All</em>: remove all images.</li>
+</ul>
+</div>
+<div class="section" id="known-issues-roadmap">
+<h1><a class="toc-backref" href="#toc-entry-3">Known issues / Roadmap</a></h1>
+<ul class="simple">
+<li>Make the XML <em>Scrap</em> source path configurable instead of hardcoded</li>
+<li>Batch image import/export</li>
+<li>Advanced search with metadata filters</li>
+<li>API endpoints for external integrations</li>
+</ul>
+</div>
+<div class="section" id="changelog">
+<h1><a class="toc-backref" href="#toc-entry-4">Changelog</a></h1>
+<div class="section" id="section-1">
+<h2><a class="toc-backref" href="#toc-entry-5">19.0.1.0.7 (2026-08-05)</a></h2>
+<ul class="simple">
+<li>Allow regular users to save the <em>Scrap</em> wizard (<tt class="docutils literal">perm_write</tt> on the
+wizard access rule).</li>
+<li>Rewrite <tt class="docutils literal">action_scrap</tt> to process the XML export in batches with an
+incremental per-batch commit, <tt class="docutils literal">sudo</tt> context and proper error
+logging, so large imports (e.g. 50.000 elements) no longer abort or
+lose data.</li>
+<li>Let the superuser write image descriptions so bulk imports are not
+blocked by the moderator-only description check.</li>
+</ul>
+</div>
+<div class="section" id="section-2">
+<h2><a class="toc-backref" href="#toc-entry-6">19.0.1.0.6 (2026-06-12)</a></h2>
+<ul class="simple">
+<li>Initial implementation of the archival import, API image download,
+location picker, public gallery and self-registration features.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="credits">
+<h1><a class="toc-backref" href="#toc-entry-7">Credits</a></h1>
+<div class="section" id="authors">
+<h2><a class="toc-backref" href="#toc-entry-8">Authors</a></h2>
+<ul class="simple">
+<li>Toni Carbonell Güell</li>
+</ul>
+</div>
+<div class="section" id="contributors">
+<h2><a class="toc-backref" href="#toc-entry-9">Contributors</a></h2>
+<ul class="simple">
+<li>Toni &lt;<a class="reference external" href="mailto:toni&#64;opencode.cat">toni&#64;opencode.cat</a>&gt;</li>
+</ul>
+</div>
+<div class="section" id="maintainers">
+<h2><a class="toc-backref" href="#toc-entry-10">Maintainers</a></h2>
+<p>This module is maintained by Tonica.</p>
+<p>Contact the maintainer through their official support channels in case you find
+any issues with this module.</p>
+</div>
+</div>
+</div>
+</body>
+</html>
