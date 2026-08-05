@@ -832,6 +832,24 @@ class LensMemoriaeImage(models.Model):
                 vals[key] = text
         return vals
 
+    def _upsert_scrap_chunk(self, chunk):
+        codis = [vals["codi_referencia"] for vals in chunk]
+        existing = {
+            rec.codi_referencia: rec
+            for rec in self.search([("codi_referencia", "in", codis)])
+        }
+        to_create = []
+        for vals in chunk:
+            rec = existing.get(vals["codi_referencia"])
+            if rec:
+                rec.write(vals)
+            else:
+                to_create.append(vals)
+        if to_create:
+            self.create(to_create)
+        self.env.cr.commit()
+        return len(chunk)
+
     def action_scrap(self):
         source_path = "/opt/odoo/custom/source"
         source_abs = os.path.abspath(source_path)
@@ -850,7 +868,9 @@ class LensMemoriaeImage(models.Model):
             }
         limit = self.env.context.get("scrap_limit", 0)
         filename_filter = self.env.context.get("scrap_filename_filter")
+        self = self.sudo()
         processed = 0
+        batch_size = 500
         for root, _dirs, files in os.walk(source_abs):
             for fname in files:
                 if not fname.lower().endswith(".xml"):
@@ -861,25 +881,38 @@ class LensMemoriaeImage(models.Model):
                 try:
                     tree = ET.parse(fpath)
                     xml_root = tree.getroot()
+                    chunk = []
                     for el in xml_root.findall(".//element"):
-                        vals = self._xml_element_to_vals(el, fname)
-                        codi = vals.get("codi_referencia")
-                        if not codi:
-                            continue
-                        existing = self.search(
-                            [("codi_referencia", "=", codi)], limit=1
-                        )
-                        if existing:
-                            existing.write(vals)
-                        else:
-                            self.create(vals)
-                        processed += 1
                         if limit and processed >= limit:
                             break
-                    if limit and processed >= limit:
-                        break
+                        vals = self._xml_element_to_vals(el, fname)
+                        if not vals.get("codi_referencia"):
+                            continue
+                        chunk.append(vals)
+                        if len(chunk) >= batch_size or (
+                            limit and processed + len(chunk) >= limit
+                        ):
+                            try:
+                                processed += self._upsert_scrap_chunk(chunk)
+                            except Exception:
+                                _logger.exception(
+                                    "Scrap failed for a batch of %d elements",
+                                    len(chunk),
+                                )
+                                self.env.cr.rollback()
+                            chunk = []
+                    if chunk:
+                        try:
+                            processed += self._upsert_scrap_chunk(chunk)
+                        except Exception:
+                            _logger.exception(
+                                "Scrap failed for a batch of %d elements",
+                                len(chunk),
+                            )
+                            self.env.cr.rollback()
                 except Exception:
-                    pass
+                    _logger.exception("Scrap failed while processing %s", fpath)
+                    self.env.cr.rollback()
                 if limit and processed >= limit:
                     break
             if limit and processed >= limit:
