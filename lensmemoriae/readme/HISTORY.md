@@ -1,3 +1,9 @@
+## 19.0.1.0.13 (2026-08-06)
+
+- Raise the image download cron batch from 30 to 250 images per run so large imports
+  (e.g. 50.000 elements) do not leave thousands of images stuck in the _pending_
+  download state for days.
+
 ## 19.0.1.0.12 (2026-08-06)
 
 - Fix `action_recalculate_wordcloud` being called from the _Recalculate Word Cloud_
