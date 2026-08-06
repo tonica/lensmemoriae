@@ -1,6 +1,6 @@
 {
     "name": "LensMemoriae",
-    "version": "19.0.1.0.10",
+    "version": "19.0.1.0.11",
     "summary": "Recover the memory of photographs",
     "description": """
 Recover the memory of your photographs: manage, tag, and share your images

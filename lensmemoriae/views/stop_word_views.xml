@@ -18,6 +18,7 @@
                         type="object"
                         string="Recalculate Word Cloud"
                         class="btn-primary"
+                        display="always"
                     />
                 </header>
                 <field name="name" />

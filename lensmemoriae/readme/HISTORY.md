@@ -1,3 +1,8 @@
+## 19.0.1.0.11 (2026-08-06)
+
+- Render the _Recalculate Word Cloud_ list button with `display="always"` so it appears
+  in the control panel instead of the Cog menu.
+
 ## 19.0.1.0.10 (2026-08-06)
 
 - Show the _Recalculate Word Cloud_ button on the _Stop Words_ list header (it was only
