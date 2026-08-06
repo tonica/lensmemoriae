@@ -36,7 +36,6 @@ class LensMemoriaeStopWord(models.Model):
         self._invalidate_wordcloud_cache()
         return super().unlink()
 
-    @api.model
     def action_recalculate_wordcloud(self):
         Image = self.env["lensmemoriae.image"]
         words_data = Image._compute_words_from_descriptions()

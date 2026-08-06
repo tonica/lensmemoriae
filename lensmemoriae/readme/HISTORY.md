@@ -1,3 +1,9 @@
+## 19.0.1.0.12 (2026-08-06)
+
+- Fix `action_recalculate_wordcloud` being called from the _Recalculate Word Cloud_
+  button: drop the `@api.model` decorator so the header button works (model methods
+  receive the selected ids as an extra argument and fail with a RPC error).
+
 ## 19.0.1.0.11 (2026-08-06)
 
 - Render the _Recalculate Word Cloud_ list button with `display="always"` so it appears
