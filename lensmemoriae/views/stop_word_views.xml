@@ -12,6 +12,14 @@
         <field name="model">lensmemoriae.stop.word</field>
         <field name="arch" type="xml">
             <list editable="bottom">
+                <header>
+                    <button
+                        name="action_recalculate_wordcloud"
+                        type="object"
+                        string="Recalculate Word Cloud"
+                        class="btn-primary"
+                    />
+                </header>
                 <field name="name" />
                 <field name="count" />
                 <field name="image_count" />

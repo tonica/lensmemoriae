@@ -1,3 +1,9 @@
+## 19.0.1.0.10 (2026-08-06)
+
+- Show the _Recalculate Word Cloud_ button on the _Stop Words_ list header (it was only
+  available on the record form), so moderators can resync the word cloud without opening
+  a record.
+
 ## 19.0.1.0.9 (2026-08-06)
 
 - Remove the deprecated _Generate Descriptions_ feature: the _Show Generate Descriptions
