@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lensmemoriae_visual_hash_user,lensmemoriae.visual.hash user,model_lensmemoriae_visual_hash,base.group_user,1,0,0,0
+access_lensmemoriae_visual_hash_manager,lensmemoriae.visual.hash manager,model_lensmemoriae_visual_hash,lensmemoriae.group_moderator,1,1,1,1

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <!-- Visual Search -->
+    <t t-name="lensmemoriae.VisualSearch">
+        <div class="o_visualsearch_root">
+            <h4>Visual Search</h4>
+            <p class="text-muted">
+                Paste an image (Ctrl+V) or attach a file to find visually similar
+                photographs. Cropped parts of a photo are recognised too.
+            </p>
+
+            <div
+                class="vs-dropzone"
+                t-att-class="state.dragOver ? 'vs-active' : ''"
+                t-on-click="() => this.fileInputRef.el.click()"
+                t-on-drop.prevent="(ev) => this.onDrop(ev)"
+                t-on-dragover.prevent="() => this.state.dragOver = true"
+                t-on-dragleave.prevent="() => this.state.dragOver = false"
+            >
+                <span class="vs-dropzone-icon">
+                    <i class="fa fa-picture-o" />
+                </span>
+                <div>
+                    Drag &amp; drop an image here, <b>paste (Ctrl+V)</b> an image, or
+                    click to select a file.
+                </div>
+            </div>
+            <input
+                type="file"
+                accept="image/*"
+                class="d-none"
+                t-ref="fileInput"
+                t-on-change="(ev) => this.onFileInput(ev)"
+            />
+
+            <div
+                t-if="state.queryImage"
+                class="vs-query"
+            >
+                <img
+                    t-att-src="state.queryImage"
+                    class="vs-query-preview"
+                    alt="Query image"
+                />
+                <div class="vs-query-controls">
+                    <div>
+                        <label class="form-label d-block mb-1">Similarity threshold</label>
+                        <select
+                            class="form-select form-select-sm"
+                            t-att-value="state.threshold"
+                            t-on-change="(ev) => this.state.threshold = parseInt(ev.target.value)"
+                        >
+                            <option value="8">Very close</option>
+                            <option value="14">Similar</option>
+                            <option value="20">Flexible</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label d-block mb-1">Max results</label>
+                        <input
+                            type="number"
+                            class="form-control form-control-sm"
+                            min="1"
+                            max="100"
+                            value="20"
+                            t-on-change="(ev) => this.state.limit = parseInt(ev.target.value) || 20"
+                        />
+                    </div>
+                    <div class="d-flex gap-2 mt-2">
+                        <button
+                            class="btn btn-primary btn-sm"
+                            t-on-click="onSearch"
+                            t-att-disabled="state.searching || undefined"
+                        >
+                            <i
+                                t-if="state.searching"
+                                class="fa fa-spinner fa-spin"
+                            />
+                            <i t-else="" class="fa fa-search" /> Search
+                        </button>
+                        <button
+                            class="btn btn-secondary btn-sm"
+                            t-on-click="clearQuery"
+                        >
+                            Clear
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div t-if="state.error" class="vs-error">
+                <t t-esc="state.error" />
+            </div>
+
+            <div t-if="!state.searching &amp;&amp; state.searched &amp;&amp; !state.results.length &amp;&amp; !state.error" class="vs-empty text-muted">
+                No similar images found. Try a looser threshold.
+            </div>
+
+            <div class="vs-results">
+                <div
+                    t-foreach="state.results"
+                    t-as="result"
+                    t-key="result.id"
+                    class="vs-result-card"
+                    t-on-click="() => this.openResult(result)"
+                >
+                    <div class="vs-result-thumb">
+                        <img
+                            t-att-src="result.thumb_url"
+                            t-on-load="(ev) => this.onThumbLoad(result, ev)"
+                            alt=""
+                        />
+                        <div
+                            t-if="state.fitted[result.id] &amp;&amp; result.best_region"
+                            class="vs-region-box"
+                            t-att-style="this.regionStyle(result)"
+                        />
+                    </div>
+                    <div class="vs-result-body">
+                        <div class="vs-result-name">
+                            <t t-esc="result.name" />
+                        </div>
+                        <div
+                            class="vs-result-similarity"
+                            t-att-class="this.simClass(result.similarity)"
+                        >
+                            <t t-esc="result.similarity + '%'" /> match
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <!-- Visual Index -->
+    <t t-name="lensmemoriae.VisualIndex">
+        <div class="o_visualindex_root">
+            <h4>Visual Index</h4>
+            <p class="text-muted">
+                Manage the perceptual-hash index used by Visual Search.
+            </p>
+
+            <div class="vi-summary">
+                <div class="vi-stat">
+                    <div class="vi-number">
+                        <t t-esc="state.stats.total" />
+                    </div>
+                    <div class="vi-label">With image</div>
+                </div>
+                <div class="vi-stat">
+                    <div class="vi-number">
+                        <t t-esc="state.stats.indexed" />
+                    </div>
+                    <div class="vi-label">Indexed</div>
+                </div>
+                <div class="vi-stat">
+                    <div class="vi-number">
+                        <t t-esc="state.stats.pending" />
+                    </div>
+                    <div class="vi-label">Pending</div>
+                </div>
+                <div class="vi-stat">
+                    <div class="vi-number">
+                        <t t-esc="state.stats.error" />
+                    </div>
+                    <div class="vi-label">Error</div>
+                </div>
+            </div>
+
+            <div class="vi-toolbar">
+                <button
+                    class="btn btn-primary btn-sm"
+                    t-on-click="onIndexPending"
+                    t-att-disabled="state.busy || undefined"
+                >
+                    <i
+                        t-if="state.busy"
+                        class="fa fa-spinner fa-spin"
+                    />
+                    <i t-else="" class="fa fa-camera" /> Index pending
+                </button>
+                <button
+                    class="btn btn-secondary btn-sm"
+                    t-on-click="onReindexAll"
+                    t-att-disabled="state.busy || undefined"
+                >
+                    Reindex all
+                </button>
+                <button
+                    class="btn btn-outline-secondary btn-sm"
+                    t-on-click="loadStats"
+                    t-att-disabled="state.busy || undefined"
+                >
+                    <i class="fa fa-refresh" /> Refresh
+                </button>
+                <span class="text-muted small ms-2">
+                    <t t-esc="state.stats.progress" />% indexed
+                </span>
+            </div>
+
+            <div class="vi-progress">
+                <div class="progress">
+                    <div
+                        class="progress-bar"
+                        t-att-style="'width: ' + state.stats.progress + '%'"
+                    />
+                </div>
+            </div>
+
+            <div
+                title="Target list"
+            >
+                <select
+                    class="form-select form-select-sm vi-bar"
+                    t-on-change="(ev) => this.onChangeFilter(ev)"
+                >
+                    <option value="pending">Pending</option>
+                    <option value="error">Errors</option>
+                    <option value="indexed">Indexed</option>
+                </select>
+            </div>
+
+            <div class="vi-list" style="margin-top: 12px;">
+                <div
+                    t-foreach="state.images"
+                    t-as="img"
+                    t-key="img.id"
+                    class="vi-item"
+                    t-on-click="() => this.openImage(img)"
+                >
+                    <img
+                        t-att-src="'/lens-memoriae/thumbnail/' + img.id + '/200x200'"
+                        alt=""
+                    />
+                    <div class="vi-item-name">
+                        <t t-esc="img.name" />
+                    </div>
+                </div>
+            </div>
+            <div
+                t-if="!state.images.length &amp;&amp; !state.busy"
+                class="text-muted"
+                style="margin-top: 12px;"
+            >
+                No images for the selected state.
+            </div>
+        </div>
+    </t>
+</templates>
