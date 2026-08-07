@@ -106,4 +106,34 @@
         <field name="perm_create" eval="1" />
         <field name="perm_unlink" eval="1" />
     </record>
+
+    <record id="access_lensmemoriae_arxiu_fons_user" model="ir.model.access">
+        <field name="name">lensmemoriae.arxiu.fons user</field>
+        <field name="model_id" ref="model_lensmemoriae_arxiu_fons" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="0" />
+    </record>
+
+    <record id="access_lensmemoriae_arxiu_serie_user" model="ir.model.access">
+        <field name="name">lensmemoriae.arxiu.serie user</field>
+        <field name="model_id" ref="model_lensmemoriae_arxiu_serie" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+    <record id="access_lensmemoriae_arxiu_fons_wizard_user" model="ir.model.access">
+        <field name="name">lensmemoriae.arxiu.fons.wizard user</field>
+        <field name="model_id" ref="model_lensmemoriae_arxiu_fons_wizard" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
 </odoo>

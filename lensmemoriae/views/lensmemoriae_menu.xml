@@ -44,6 +44,23 @@
         action="lensmemoriae_stop_word_action"
         groups="lensmemoriae.group_moderator"
     />
+    <menuitem
+        id="lensmemoriae_arxiu_fons_menu"
+        name="Arxius en Línia"
+        parent="lensmemoriae_root_menu"
+    />
+    <menuitem
+        id="lensmemoriae_arxiu_fons_list_menu"
+        name="Fons"
+        parent="lensmemoriae_arxiu_fons_menu"
+        action="lensmemoriae_arxiu_fons_action"
+    />
+    <menuitem
+        id="lensmemoriae_arxiu_fons_download_menu"
+        name="Descarrega un fons"
+        parent="lensmemoriae_arxiu_fons_menu"
+        action="lensmemoriae_arxiu_fons_wizard_action"
+    />
     <record id="lensmemoriae_settings_action" model="ir.actions.act_window">
         <field name="name">Settings</field>
         <field name="res_model">res.config.settings</field>

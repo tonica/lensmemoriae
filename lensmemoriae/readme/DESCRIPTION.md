@@ -6,6 +6,9 @@ Main features:
 
 - Import of archival metadata from a Catalan _Arxiu en Línia_ (gencat) XML export
   through the _Scrap_ wizard
+- Fond download from _Arxiu en Línia_: search a fond by name and queue a background job
+  that exports every document unit of the fond, generating one XML file per series plus
+  combined CSV and JSON files
 - Automatic image download from the _Arxiu en Línia_ API (cron + manual)
 - Tagging with bulk add/remove from the kanban multi-select toolbar
 - Moderation of image notes (pending/approved/rejected) with a moderation queue

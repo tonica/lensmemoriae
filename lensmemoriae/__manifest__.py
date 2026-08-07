@@ -1,6 +1,6 @@
 {
     "name": "LensMemoriae",
-    "version": "19.0.1.0.13",
+    "version": "19.0.1.0.16",
     "summary": "Recover the memory of photographs",
     "description": """
 Recover the memory of your photographs: manage, tag, and share your images
@@ -26,6 +26,8 @@ Main features:
         "views/lensmemoriae_tag_views.xml",
         "views/mail_message_views.xml",
         "views/stop_word_views.xml",
+        "views/arxiu_fons_views.xml",
+        "views/arxiu_fons_wizard_views.xml",
         "views/lensmemoriae_menu.xml",
         "views/location_picker_views.xml",
         "views/bulk_tag_views.xml",

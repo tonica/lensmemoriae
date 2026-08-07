@@ -14,6 +14,13 @@ To use LensMemoriae:
     manage the word cloud stop words under _LensMemoriae \> Stop Words_.
 7.  The public gallery is available at `/lensmemoriae-home` and self registration at
     `/lens-memoriae/signup`.
+8.  To download a whole fond from _Arxius en Línia_ (the Catalan Archives portal), go to
+    _LensMemoriae \> Arxius en Línia \> Descarrega un fons_, type the fond name (e.g.
+    "Alfons Güell, fotògraf"), pick a match and press _Descarrega_. The download runs in
+    the background (queued job) and generates one XML file per series of the fond plus a
+    combined CSV and JSON file. Download the files from the fond form: one XML per series
+    via the _Sèries_ list, the CSV/JSON via the header buttons, or everything at once with
+    the _Descarrega TOT (ZIP)_ button.
 
 Maintenance actions for moderators are available as header buttons on the _Images_
 screen:

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="lensmemoriae_arxiu_fons_list" model="ir.ui.view">
+        <field name="name">lensmemoriae.arxiu.fons.list</field>
+        <field name="model">lensmemoriae.arxiu.fons</field>
+        <field name="arch" type="xml">
+            <list string="Fons d'Arxius en Línia" create="0" delete="0">
+                <field name="name" />
+                <field name="codi_referencia" />
+                <field name="arxiu_nom" />
+                <field name="total_unitats" />
+                <field name="state" />
+                <field name="fetch_date" />
+            </list>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_arxiu_fons_form" model="ir.ui.view">
+        <field name="name">lensmemoriae.arxiu.fons.form</field>
+        <field name="model">lensmemoriae.arxiu.fons</field>
+        <field name="arch" type="xml">
+            <form string="Fons d'Arxius en Línia">
+                <header>
+                    <button
+                        name="action_download"
+                        type="object"
+                        string="Descarrega el fons"
+                        class="btn-primary"
+                        confirm="Es descarregaran totes les unitats documentals del fons i es generaran els fitxers XML, CSV i JSON. Vols continuar?"
+                        invisible="state == 'processing'"
+                    />
+                    <button
+                        name="action_download_csv"
+                        type="object"
+                        string="Descarrega CSV"
+                        class="oe_stat_button"
+                        icon="fa-file-excel-o"
+                        invisible="not csv_attachment_id"
+                    />
+                    <button
+                        name="action_download_json"
+                        type="object"
+                        string="Descarrega JSON"
+                        class="oe_stat_button"
+                        icon="fa-file-code-o"
+                        invisible="not json_attachment_id"
+                    />
+                    <button
+                        name="action_download_zip"
+                        type="object"
+                        string="Descarrega TOT (ZIP)"
+                        class="oe_stat_button"
+                        icon="fa-file-archive-o"
+                        invisible="state != 'done' or not attachment_ids"
+                    />
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="codi_referencia" />
+                            <field name="arxiu_nom" />
+                            <field name="centre" />
+                        </group>
+                        <group>
+                            <field name="state" />
+                            <field name="fetch_date" />
+                            <field name="total_unitats" />
+                        </group>
+                    </group>
+                    <group string="Sèries" invisible="not serie_ids">
+                        <field name="serie_ids" />
+                    </group>
+                    <group string="Fitxers generats">
+                        <field name="attachment_ids" widget="many2many_binary" />
+                    </group>
+                    <group string="Error" invisible="state != 'error'">
+                        <field name="error_message" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_arxiu_fons_serie_list" model="ir.ui.view">
+        <field name="name">lensmemoriae.arxiu.serie.list</field>
+        <field name="model">lensmemoriae.arxiu.serie</field>
+        <field name="arch" type="xml">
+            <list string="Sèries">
+                <field name="name" />
+                <field name="codi_classificacio" />
+                <field name="unit_count" />
+                <button
+                    name="action_download_xml"
+                    type="object"
+                    string="Descarrega XML"
+                    class="btn-link"
+                    icon="fa-file-code-o"
+                />
+            </list>
+        </field>
+    </record>
+
+    <record id="lensmemoriae_arxiu_fons_action" model="ir.actions.act_window">
+        <field name="name">Fons d'Arxius en Línia</field>
+        <field name="res_model">lensmemoriae.arxiu.fons</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="lensmemoriae_arxiu_fons_wizard_action" model="ir.actions.act_window">
+        <field name="name">Descarrega un fons</field>
+        <field name="res_model">lensmemoriae.arxiu.fons.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
