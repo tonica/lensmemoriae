@@ -437,6 +437,30 @@ img.lensmemoriae-list-image,
         border-bottom: 1px solid #dee2e6;
         font-size: 13px;
         flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .o_lensmemoriae_wordcloud_slider_label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        color: #495057;
+        white-space: nowrap;
+    }
+
+    .o_lensmemoriae_wordcloud_slider {
+        flex: 0 0 220px;
+        cursor: pointer;
+        accent-color: #017e84;
+    }
+
+    .o_lensmemoriae_wordcloud_count {
+        font-size: 12px;
+        color: #6c757d;
+        font-variant-numeric: tabular-nums;
     }
 
     .o_lensmemoriae_wordcloud_body {

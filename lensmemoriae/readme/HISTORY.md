@@ -1,3 +1,9 @@
+## 19.0.1.0.17 (2026-08-07)
+
+- Add a slider in the _Word Cloud_ toolbar to choose how many words to display, from 1
+  to all available active stop words (default 80). The word cloud now fetches every
+  active stop word instead of capping the result at 80.
+
 ## 19.0.1.0.16 (2026-08-07)
 
 - Wrap the series XML documents in a single `<elements>` root element so the files

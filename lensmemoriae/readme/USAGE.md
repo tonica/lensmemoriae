@@ -9,7 +9,9 @@ To use LensMemoriae:
 4.  Use _LensMemoriae \> Map_ to explore all geolocated images on a full-screen Leaflet
     map.
 5.  Use _LensMemoriae \> Word Cloud_ to visualize the words of approved descriptions;
-    click a word to filter the images that contain it.
+    use the slider in the toolbar to choose how many words to display (from 1 to all
+    available active stop words, 80 by default) and click a word to filter the images
+    that contain it.
 6.  Moderators can approve or reject pending notes from the _Moderation Queue_ and
     manage the word cloud stop words under _LensMemoriae \> Stop Words_.
 7.  The public gallery is available at `/lensmemoriae-home` and self registration at

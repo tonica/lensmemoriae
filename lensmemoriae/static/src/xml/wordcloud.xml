@@ -7,7 +7,20 @@
                     <i class="fa fa-spinner fa-spin" /> Loading…
                 </t>
                 <t t-else="">
-                    <t t-esc="state.wordCount" /> paraules
+                    <label class="o_lensmemoriae_wordcloud_slider_label">
+                        Paraules
+                        <input
+                            type="range"
+                            min="1"
+                            t-att-max="state.totalWords"
+                            t-att-value="state.wordLimit"
+                            t-on-input="onLimitChange"
+                            class="o_lensmemoriae_wordcloud_slider"
+                        />
+                    </label>
+                    <span class="o_lensmemoriae_wordcloud_count">
+                        <t t-esc="state.wordLimit" /> de <t t-esc="state.totalWords" />
+                    </span>
                 </t>
             </div>
             <div class="o_lensmemoriae_wordcloud_body">

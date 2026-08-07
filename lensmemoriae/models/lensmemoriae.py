@@ -349,7 +349,7 @@ class LensMemoriaeImage(models.Model):
     @api.model
     def get_word_cloud_data(self):
         StopWord = self.env["lensmemoriae.stop.word"].sudo()
-        active = StopWord.search([("active", "=", True)], order="count desc", limit=80)
+        active = StopWord.search([("active", "=", True)], order="count desc")
         if active:
             return [{"word": w.name, "count": w.count} for w in active]
 
@@ -372,7 +372,7 @@ class LensMemoriaeImage(models.Model):
         if vals_list:
             StopWord.create(vals_list)
 
-        return [{"word": w, "count": c} for w, c, ic in words_data[:80]]
+        return [{"word": w, "count": c} for w, c, ic in words_data]
 
     @api.depends("image_download_state")
     def _compute_download_progress(self):

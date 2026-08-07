@@ -19,6 +19,8 @@ class LensMemoriaeWordCloud extends Component {
         this.state = useState({
             loading: true,
             wordCount: 0,
+            wordLimit: 80,
+            totalWords: 0,
             hovered: null,
             tooltipX: 0,
             tooltipY: 0,
@@ -38,14 +40,27 @@ class LensMemoriaeWordCloud extends Component {
                 "get_word_cloud_data",
                 []
             );
-            this.wordData = wordData || [];
-            this.state.wordCount = this.wordData.length;
+            this.allWordData = wordData || [];
+            this.state.totalWords = this.allWordData.length;
+            this.state.wordLimit = Math.min(80, this.state.totalWords) || 1;
+            this.state.wordCount = this.state.wordLimit;
         } catch (_e) {
             // Silent
         }
         this.state.loading = false;
         await new Promise((r) => setTimeout(r, 200));
         this.renderCloud();
+    }
+
+    onLimitChange(ev) {
+        const value = parseInt(ev.target.value, 10);
+        if (Number.isNaN(value)) return;
+        this.state.wordLimit = Math.max(1, Math.min(value, this.state.totalWords));
+        if (this._renderTimer) clearTimeout(this._renderTimer);
+        this._renderTimer = setTimeout(() => {
+            this.renderCloud();
+            this._renderTimer = null;
+        }, 50);
     }
 
     renderCloud() {
@@ -70,6 +85,9 @@ class LensMemoriaeWordCloud extends Component {
         ctx.scale(dpr, dpr);
         ctx.clearRect(0, 0, W, H);
 
+        this.wordData = this.allWordData.slice(0, this.state.wordLimit);
+        this.state.wordCount = this.wordData.length;
+
         if (!this.wordData.length) {
             ctx.fillStyle = "#6c757d";
             ctx.font = '18px "Helvetica Neue", Arial, sans-serif';
@@ -79,7 +97,7 @@ class LensMemoriaeWordCloud extends Component {
             return;
         }
 
-        const maxCount = this.wordData[0].count;
+        const maxCount = this.allWordData[0].count;
         this.wordRects = [];
         const placed = [];
         const cx = W / 2;
