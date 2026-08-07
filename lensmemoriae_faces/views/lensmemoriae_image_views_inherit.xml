@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='tag_ids']" position="after">
                 <group string="Detected People" name="faces">
+                    <field name="exclude_from_face_scan" />
                     <field name="face_ids" nolabel="1">
                         <list>
                             <field name="thumbnail" widget="image" class="oe_avatar" />
@@ -61,6 +62,24 @@
                             class="btn-primary"
                             groups="lensmemoriae.group_moderator"
                         />
+                        <button
+                            name="action_exclude_from_face_scan"
+                            type="object"
+                            string="Exclude from Face Scan"
+                            icon="fa-ban"
+                            class="btn-secondary oe_inline"
+                            invisible="exclude_from_face_scan"
+                            groups="lensmemoriae.group_moderator"
+                        />
+                        <button
+                            name="action_include_in_face_scan"
+                            type="object"
+                            string="Include in Face Scan"
+                            icon="fa-check"
+                            class="btn-secondary oe_inline"
+                            invisible="not exclude_from_face_scan"
+                            groups="lensmemoriae.group_moderator"
+                        />
                         <span
                             class="text-muted small ms-2"
                             style="margin-left: 12px; align-self: center;"
@@ -71,6 +90,7 @@
                                 decoration-success="face_scan_state == 'scanned'"
                                 decoration-warning="face_scan_state == 'pending' or face_scan_state == 'scanning'"
                                 decoration-danger="face_scan_state == 'error'"
+                                decoration-muted="face_scan_state == 'excluded'"
                             />
                             <field
                                 name="face_scan_date"
@@ -106,6 +126,11 @@
                     name="filter_has_identified"
                     string="Has Identified"
                     domain="[('face_ids.person_id', '!=', False)]"
+                />
+                <filter
+                    name="filter_excluded_faces"
+                    string="Excluded from Face Scan"
+                    domain="[('exclude_from_face_scan', '=', True)]"
                 />
                 <separator />
             </separator>

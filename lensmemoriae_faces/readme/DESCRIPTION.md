@@ -3,7 +3,7 @@ photographs and groups them by person using the `face_recognition` Python librar
 
 Main features:
 
-- Automatic face detection (15-minute cron and a manual _Scan for Faces_ button)
+- Automatic face detection (a configurable cron and a manual _Scan for Faces_ button)
 - Face suggestions engine that proposes a person for every detected face
 - People management with reference faces, notes and a photo gallery
 - Identify, accept suggestion and ignore workflows

@@ -1,5 +1,16 @@
-Faces are detected automatically by a cron job every 15 minutes. Moderators can also
-scan a single image from its form with the _Scan for Faces_ button.
+Faces are detected automatically by a cron job (by default every 5 minutes, processing
+a configurable batch of images). Moderators can also scan a single image from its form
+with the _Scan for Faces_ button.
+
+Face scanning and person suggestion crons can be enabled or disabled together from the
+settings under _Settings \> General Settings \> LensMemoriae \> Automatic Face Detection_.
+When disabled, the scheduled jobs stop running but the manual _Scan for Faces_ button
+keeps working.
+
+Images can be excluded from the scan (for example very degraded negatives) with the
+_Exclude from Face Scan_ button on the image form, or by setting the exclusion flag
+while editing. Excluded images are skipped by the cron and shown with a muted _Excluded_
+state.
 
 To use LensMemoriae Faces:
 
@@ -14,4 +25,4 @@ To use LensMemoriae Faces:
     with the same actions as the _Faces_ list.
 
 Filter images with faces from the _Images_ screen using the _Has Faces_ / _No Faces_ /
-_Has Identified_ filters.
+_Has Identified_ filters, or the _Excluded from Face Scan_ filter to review exclusions.

@@ -14,23 +14,31 @@ try:
         face_encodings,
         face_locations,
     )
+
+    FACE_RECOGNITION_AVAILABLE = True
 except ImportError:
     _logger.warning("face_recognition not available. Face features will be disabled.")
     np = None
     face_locations = None
     face_encodings = None
     face_distance = None
+    FACE_RECOGNITION_AVAILABLE = False
 
 
 class LensMemoriaeImage(models.Model):
     _inherit = "lensmemoriae.image"
 
     face_ids = fields.One2many("lensmemoriae.face", "image_id")
+    exclude_from_face_scan = fields.Boolean(
+        string="Exclude from Face Scan",
+        help="Skip this image during automatic face detection.",
+    )
     face_scan_state = fields.Selection(
         [
             ("pending", "Pending Scan"),
             ("scanning", "Scanning"),
             ("scanned", "Scanned"),
+            ("excluded", "Excluded"),
             ("error", "Error"),
         ],
         default="pending",
@@ -59,8 +67,55 @@ class LensMemoriaeImage(models.Model):
             },
         }
 
+    def action_exclude_from_face_scan(self):
+        self.write(
+            {
+                "exclude_from_face_scan": True,
+                "face_scan_state": "excluded",
+            }
+        )
+        return True
+
+    def action_include_in_face_scan(self):
+        self.write(
+            {
+                "exclude_from_face_scan": False,
+                "face_scan_state": "pending",
+            }
+        )
+        return True
+
+    @api.model
+    def _is_face_scan_enabled(self):
+        ICP = self.env["ir.config_parameter"].sudo()
+        return ICP.get_param("lensmemoriae_faces.enabled", "True") == "True"
+
+    @api.model
+    def _get_scan_batch_size(self):
+        ICP = self.env["ir.config_parameter"].sudo()
+        return int(ICP.get_param("lensmemoriae_faces.scan_batch_size", "200"))
+
+    @api.model
+    def _get_suggest_batch_size(self):
+        ICP = self.env["ir.config_parameter"].sudo()
+        return int(ICP.get_param("lensmemoriae_faces.suggest_batch_size", "50"))
+
     def _detect_faces(self):
         self.ensure_one()
+        if self.exclude_from_face_scan:
+            self.face_scan_state = "excluded"
+            return 0
+        if not FACE_RECOGNITION_AVAILABLE:
+            if not getattr(type(self), "_face_recognition_warned", False):
+                type(self)._face_recognition_warned = True
+                _logger.warning(
+                    "face_recognition is not installed in the Odoo environment. "
+                    "Face detection is disabled. Rebuild the image with "
+                    "PIP_INSTALL_ODOO=face_recognition."
+                )
+            self.face_scan_state = "error"
+            self.face_scan_date = fields.Datetime.now()
+            return 0
         if not self.image:
             _logger.warning("No image data for %s", self.name)
             self.face_scan_state = "error"
@@ -120,9 +175,19 @@ class LensMemoriaeImage(models.Model):
             return 0
 
     @api.model
-    def _cron_scan_faces(self, batch_size=10):
+    def _cron_scan_faces(self, batch_size=None):
+        if not self._is_face_scan_enabled():
+            return 0
+        if not FACE_RECOGNITION_AVAILABLE:
+            _logger.warning("face_recognition not installed; skipping face scan cron.")
+            return 0
+        batch_size = batch_size or self._get_scan_batch_size()
         images = self.search(
-            [("face_ids", "=", False), ("image", "!=", False)],
+            [
+                ("face_scan_state", "in", ["pending", "error"]),
+                ("image", "!=", False),
+                ("exclude_from_face_scan", "=", False),
+            ],
             limit=batch_size,
         )
         scanned = 0
@@ -133,7 +198,10 @@ class LensMemoriaeImage(models.Model):
         return scanned
 
     @api.model
-    def _cron_suggest_persons(self, batch_size=50):
+    def _cron_suggest_persons(self, batch_size=None):
+        if not self._is_face_scan_enabled():
+            return 0
+        batch_size = batch_size or self._get_suggest_batch_size()
         Face = self.env["lensmemoriae.face"]
         faces = Face.search(
             [

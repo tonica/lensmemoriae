@@ -1,6 +1,6 @@
 {
     "name": "LensMemoriae Faces",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.0.1",
     "summary": "Automatic face detection and person identification in photographs",
     "description": """
 Automatically detect, group, and identify faces in your LensMemoriae images.
@@ -19,6 +19,7 @@ Main features:
         "security/lensmemoriae_faces_security.xml",
         "security/ir.model.access.csv",
         "data/cron_data.xml",
+        "views/res_config_settings_views.xml",
         "views/lensmemoriae_person_views.xml",
         "views/lensmemoriae_face_views.xml",
         "views/lensmemoriae_image_views_inherit.xml",
