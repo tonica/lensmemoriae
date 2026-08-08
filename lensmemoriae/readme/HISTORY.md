@@ -1,3 +1,16 @@
+## 19.0.1.0.18 (2026-08-08)
+
+- Remove the filesystem-based _Scrap_ wizard and replace it with a per-fond import:
+  the new **Importar a LensMemòria** button on the fond record imports all series XML
+  attachments into `lensmemoriae.image`. The `/opt/odoo/custom/source` folder and the
+  `ARXIU_SOURCE_PATH` volume are no longer used.
+- Rework the _Descarrega un fons_ wizard to search over a cached full fond list
+  (`lensmemoriae.aenl_fons_cache`) instead of creating records while typing. Fond
+  records are now created only when _Descarrega_ is pressed, and a new
+  **Actualitza llista de fons** action (wizard + settings) refreshes the cache.
+- Cache the full _Arxiu en Línia_ fond list in the `lensmemoriae.aenl_fons_cache`
+  system parameter so the complete list is available without filesystem access.
+
 ## 19.0.1.0.17 (2026-08-07)
 
 - Add a slider in the _Word Cloud_ toolbar to choose how many words to display, from 1

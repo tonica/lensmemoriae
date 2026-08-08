@@ -4,8 +4,9 @@ moderate, geolocate and share them.
 
 Main features:
 
-- Import of archival metadata from a Catalan _Arxiu en Línia_ (gencat) XML export
-  through the _Scrap_ wizard
+- Import of archival metadata from a Catalan _Arxiu en Línia_ (gencat) XML export:
+  download a fond and import all its series XML attachments into the image archive from
+  the fond record
 - Fond download from _Arxiu en Línia_: search a fond by name and queue a background job
   that exports every document unit of the fond, generating one XML file per series plus
   combined CSV and JSON files

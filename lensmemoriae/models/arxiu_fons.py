@@ -95,6 +95,9 @@ AENL_ARRAY_FIELDS = {
     "editorsList",
 }
 
+# System parameter that caches the full fond list returned by /options/fons.
+AENL_FONS_CACHE_KEY = "lensmemoriae.aenl_fons_cache"
+
 
 class LensMemoriaeArxiuFons(models.Model):
     _name = "lensmemoriae.arxiu.fons"
@@ -165,6 +168,42 @@ class LensMemoriaeArxiuFons(models.Model):
         self.write({"state": "processing", "error_message": False})
         self.sudo().action_fetch_fons()
         return self._download_result_notification()
+
+    def action_import_to_lensmemoriae(self):
+        self.ensure_one()
+        image = self.env["lensmemoriae.image"].sudo()
+        processed = 0
+        details = []
+        batch_size = 500
+        for serie in self.serie_ids:
+            att = serie.xml_attachment_id
+            if not att:
+                continue
+            content = att.raw
+            if not content:
+                continue
+            n = image._process_scrap_xml(
+                content, att.name or serie.name, 0, batch_size
+            )
+            processed += n
+            details.append("%s: %d" % (serie.name, n))
+        message = (
+            "Importat del fons %s: %d elements." % (self.name, processed)
+            if processed
+            else "No s'ha pogut importar cap element (revisa els XML de les sèries)."
+        )
+        if details:
+            message += " " + "; ".join(details)
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": "LensMemòria",
+                "message": message,
+                "type": "success" if processed else "warning",
+                "sticky": False,
+            },
+        }
 
     def action_download_csv(self):
         self.ensure_one()
@@ -382,7 +421,16 @@ class LensMemoriaeArxiuFons(models.Model):
         folded = self._fold_text(text)
         if not folded:
             return []
-        data = self._api_get("/options/fons", {"text": folded})
+        return [
+            item
+            for item in self._get_fons_list()
+            if folded in self._fold_text(item["label"])
+        ][:50]
+
+    @api.model
+    def _fetch_fons_list(self):
+        """Fetch the full fond list from the AENL API (autocomplete endpoint)."""
+        data = self._api_get("/options/fons", {"text": "a"})
         if not isinstance(data, list):
             return []
         return [
@@ -390,6 +438,45 @@ class LensMemoriaeArxiuFons(models.Model):
             for item in data
             if item.get("value")
         ]
+
+    @api.model
+    def _get_fons_list(self):
+        """Return the cached fond list, fetching and storing it when missing."""
+        ICP = self.env["ir.config_parameter"].sudo()
+        raw = ICP.get_param(AENL_FONS_CACHE_KEY)
+        if raw:
+            try:
+                data = json.loads(raw)
+                if isinstance(data, list):
+                    return data
+            except Exception:
+                pass
+        items = self._fetch_fons_list()
+        if items:
+            ICP.set_param(AENL_FONS_CACHE_KEY, json.dumps(items))
+        return items
+
+    @api.model
+    def action_refresh_fons_cache(self):
+        items = self._fetch_fons_list()
+        if items:
+            self.env["ir.config_parameter"].sudo().set_param(
+                AENL_FONS_CACHE_KEY, json.dumps(items)
+            )
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": "Llista de fons",
+                "message": (
+                    "Llista actualitzada: %d fons." % len(items)
+                    if items
+                    else "No s'ha pogut obtenir la llista de fons."
+                ),
+                "type": "success" if items else "warning",
+                "sticky": False,
+            },
+        }
 
     @api.model
     def _fold_text(self, text):

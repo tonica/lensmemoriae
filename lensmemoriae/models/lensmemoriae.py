@@ -1,7 +1,6 @@
 import base64
 import json
 import logging
-import os
 import re
 import xml.etree.ElementTree as ET
 from collections import Counter
@@ -520,15 +519,6 @@ class LensMemoriaeImage(models.Model):
             "context": ctx,
         }
 
-    def action_open_scrap_wizard(self):
-        return {
-            "type": "ir.actions.act_window",
-            "name": "Scrap XML Files",
-            "res_model": "lensmemoriae.scrap.wizard",
-            "view_mode": "form",
-            "target": "new",
-        }
-
     def _xml_element_to_vals(self, el, fname):
         vals = {"name": fname}
         XML_TEXT_FIELDS = {
@@ -628,11 +618,11 @@ class LensMemoriaeImage(models.Model):
         self.env.cr.commit()
         return len(chunk)
 
-    def _process_scrap_file(self, fpath, fname, limit, batch_size):
+    def _process_scrap_xml(self, xml_bytes, name, limit, batch_size):
         try:
-            xml_root = ET.parse(fpath).getroot()
+            xml_root = ET.fromstring(xml_bytes)
         except Exception:
-            _logger.exception("Scrap failed while processing %s", fpath)
+            _logger.exception("Scrap failed while processing %s", name)
             self.env.cr.rollback()
             return 0
         processed = 0
@@ -641,7 +631,7 @@ class LensMemoriaeImage(models.Model):
             for el in xml_root.findall(".//element"):
                 if limit and processed >= limit:
                     break
-                vals = self._xml_element_to_vals(el, fname)
+                vals = self._xml_element_to_vals(el, name)
                 if not vals.get("codi_referencia"):
                     continue
                 chunk.append(vals)
@@ -653,7 +643,7 @@ class LensMemoriaeImage(models.Model):
             if chunk:
                 processed += self._upsert_scrap_chunk_safe(chunk)
         except Exception:
-            _logger.exception("Scrap failed while processing %s", fpath)
+            _logger.exception("Scrap failed while processing %s", name)
             self.env.cr.rollback()
         return processed
 
@@ -664,56 +654,6 @@ class LensMemoriaeImage(models.Model):
             _logger.exception("Scrap failed for a batch of %d elements", len(chunk))
             self.env.cr.rollback()
             return 0
-
-    def action_scrap(self):
-        source_path = "/opt/odoo/custom/source"
-        source_abs = os.path.abspath(source_path)
-        if not os.path.isdir(source_abs):
-            return {
-                "type": "ir.actions.client",
-                "tag": "display_notification",
-                "params": {
-                    "title": "Directory Not Found",
-                    "message": (
-                        f"Configured path: {source_path}\nThe directory does not exist."
-                    ),
-                    "type": "danger",
-                    "sticky": True,
-                },
-            }
-        limit = self.env.context.get("scrap_limit", 0)
-        filename_filter = self.env.context.get("scrap_filename_filter")
-        self = self.sudo()
-        processed = 0
-        batch_size = 500
-        for root, _dirs, files in os.walk(source_abs):
-            for fname in files:
-                if not fname.lower().endswith(".xml"):
-                    continue
-                if filename_filter and filename_filter not in fname:
-                    continue
-                fpath = os.path.join(root, fname)
-                processed += self._process_scrap_file(fpath, fname, limit, batch_size)
-                if limit and processed >= limit:
-                    break
-            if limit and processed >= limit:
-                break
-        msg = f"Processed {processed} elements."
-        if limit:
-            msg += f" (limit: {limit})"
-        msg += " Image downloads have been queued."
-        if not processed:
-            msg = "No elements found to process."
-        return {
-            "type": "ir.actions.client",
-            "tag": "display_notification",
-            "params": {
-                "title": "Scrap Complete",
-                "message": msg,
-                "type": "success" if processed else "info",
-                "sticky": False,
-            },
-        }
 
     def action_clear_images(self):
         images = self.search([])

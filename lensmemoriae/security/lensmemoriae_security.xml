@@ -87,16 +87,6 @@
         <field name="perm_unlink" eval="1" />
     </record>
 
-    <record id="access_lensmemoriae_scrap_wizard_user" model="ir.model.access">
-        <field name="name">lensmemoriae.scrap.wizard user</field>
-        <field name="model_id" ref="model_lensmemoriae_scrap_wizard" />
-        <field name="group_id" ref="base.group_user" />
-        <field name="perm_read" eval="1" />
-        <field name="perm_write" eval="1" />
-        <field name="perm_create" eval="1" />
-        <field name="perm_unlink" eval="1" />
-    </record>
-
     <record id="access_lensmemoriae_stop_word_user" model="ir.model.access">
         <field name="name">lensmemoriae.stop.word user</field>
         <field name="model_id" ref="model_lensmemoriae_stop_word" />
@@ -130,6 +120,16 @@
     <record id="access_lensmemoriae_arxiu_fons_wizard_user" model="ir.model.access">
         <field name="name">lensmemoriae.arxiu.fons.wizard user</field>
         <field name="model_id" ref="model_lensmemoriae_arxiu_fons_wizard" />
+        <field name="group_id" ref="base.group_user" />
+        <field name="perm_read" eval="1" />
+        <field name="perm_write" eval="1" />
+        <field name="perm_create" eval="1" />
+        <field name="perm_unlink" eval="1" />
+    </record>
+
+    <record id="access_lensmemoriae_arxiu_fons_wizard_match_user" model="ir.model.access">
+        <field name="name">lensmemoriae.arxiu.fons.wizard.match user</field>
+        <field name="model_id" ref="model_lensmemoriae_arxiu_fons_wizard_match" />
         <field name="group_id" ref="base.group_user" />
         <field name="perm_read" eval="1" />
         <field name="perm_write" eval="1" />

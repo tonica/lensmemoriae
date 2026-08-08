@@ -98,6 +98,18 @@
                             widget="integer"
                         />
                     </setting>
+                    <setting
+                        id="lensmemoriae_fons_list_setting"
+                        string="Actualitza la llista de fons"
+                        help="Recarregar la llista completa de fons d'Arxius en Línia (llista automática utilitzada pel cercador de fons)."
+                    >
+                        <button
+                            name="action_refresh_fons_cache"
+                            type="object"
+                            string="Actualitza llista de fons"
+                            icon="fa-refresh"
+                        />
+                    </setting>
                 </app>
             </xpath>
         </field>

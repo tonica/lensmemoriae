@@ -53,6 +53,9 @@ class ResConfigSettings(models.TransientModel):
         default=85,
     )
 
+    def action_refresh_fons_cache(self):
+        return self.env["lensmemoriae.arxiu.fons"].action_refresh_fons_cache()
+
     @api.model
     def set_values(self):
         for name in (

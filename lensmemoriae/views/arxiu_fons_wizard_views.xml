@@ -10,10 +10,27 @@
                         name="fons_name"
                         placeholder="e.g. Alfons Güell, fotògraf"
                     />
-                    <field
-                        name="fons_ids"
-                        widget="many2many_tags"
-                        options="{'no_create': 1, 'no_create_edit': 1}"
+                    <button
+                        name="action_refresh_fons_cache"
+                        type="object"
+                        string="Actualitza llista de fons"
+                        icon="fa-refresh"
+                        class="btn-link"
+                    />
+                </group>
+                <group string="Coincidències" invisible="not matches_ids">
+                    <field name="matches_ids">
+                        <list>
+                            <field name="selected" />
+                            <field name="name" />
+                            <field name="codi_referencia" />
+                        </list>
+                    </field>
+                    <button
+                        name="action_show_all"
+                        type="object"
+                        string="Mostra llista completa"
+                        class="btn-secondary"
                     />
                 </group>
                 <footer>

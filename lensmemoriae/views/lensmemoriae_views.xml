@@ -7,14 +7,6 @@
             <list create="false">
                 <header>
                     <button
-                        name="action_open_scrap_wizard"
-                        type="object"
-                        string="Scrap"
-                        class="btn-secondary"
-                        display="always"
-                        groups="lensmemoriae.group_moderator"
-                    />
-                    <button
                         name="action_clear_images"
                         type="object"
                         string="Clear All"
@@ -189,14 +181,6 @@
                 create="false"
             >
                 <header>
-                    <button
-                        name="action_open_scrap_wizard"
-                        type="object"
-                        string="Scrap"
-                        class="btn-secondary"
-                        display="always"
-                        groups="lensmemoriae.group_moderator"
-                    />
                     <button
                         name="action_clear_images"
                         type="object"

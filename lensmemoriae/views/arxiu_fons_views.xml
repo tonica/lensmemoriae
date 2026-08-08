@@ -30,6 +30,15 @@
                         invisible="state == 'processing'"
                     />
                     <button
+                        name="action_import_to_lensmemoriae"
+                        type="object"
+                        string="Importar a LensMemòria"
+                        class="oe_stat_button"
+                        icon="fa-download"
+                        invisible="not serie_ids"
+                        confirm="S'importaran a LensMemòria els elements de totes les sèries del fons. Vols continuar?"
+                    />
+                    <button
                         name="action_download_csv"
                         type="object"
                         string="Descarrega CSV"
