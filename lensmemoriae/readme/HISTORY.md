@@ -1,3 +1,9 @@
+## 19.0.1.0.28 (2026-08-10)
+
+- _Recalculate Word Cloud_ now strips the Catalan elision prefixes `l'` and `d'`
+  (`l'escola` counts as `escola`, `d'en` as `en`) and removes stray commas from
+  tokens instead of recording them literally.
+
 ## 19.0.1.0.27 (2026-08-09)
 
 - Remove the inline fond-match list from the download wizard (its rows are unsaved

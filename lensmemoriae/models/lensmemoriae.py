@@ -309,12 +309,24 @@ class LensMemoriaeImage(models.Model):
             "teva",
         }
 
+        ELISION_PREFIXES = ("l'", "d'")
+
+        def _normalize_token(token):
+            for prefix in ELISION_PREFIXES:
+                if token.startswith(prefix):
+                    token = token[len(prefix):]
+            return token.replace(",", "")
+
         word_total = Counter()
         word_images = defaultdict(set)
 
         for img in images:
             tokens = re.findall(r"[a-zàèéíòóúïüç']+", (img.description or "").lower())
-            filtered = [t for t in tokens if len(t) >= 3 and t not in STOP_WORDS]
+            filtered = [
+                t
+                for t in (_normalize_token(tok) for tok in tokens)
+                if len(t) >= 3 and t not in STOP_WORDS
+            ]
             word_total.update(filtered)
             for t in set(filtered):
                 word_images[t].add(img.id)
