@@ -1,3 +1,58 @@
+## 19.0.1.0.27 (2026-08-09)
+
+- Remove the inline fond-match list from the download wizard (its rows are unsaved
+  transient lines, so Odoo blocks their buttons with "Please save your changes first").
+  The full list is now browsed only in the standalone _Consulta llista de fons_ dialog,
+  where clicking a row (or its _Descarrega_ button) downloads that fond directly.
+
+## 19.0.1.0.26 (2026-08-09)
+
+- _Consulta llista de fons_ now opens the full fond list as a separate read-only list
+  dialog (one dialog open + one close instead of trying to reload the wizard form,
+  which the web client does not support for object buttons).
+
+## 19.0.1.0.25 (2026-08-09)
+
+- Fix the _Consulta llista de fons_ button: it now writes the full fond list to the
+  wizard record and reopens the dialog with the list shown (the web client does not
+  apply field values returned by an `ir.actions.client`-style button response).
+
+## 19.0.1.0.24 (2026-08-09)
+
+- Add a _Consulta llista de fons_ button in the download wizard that lists every
+  available fond from the cache, each row with its own _Descarrega_ button.
+
+## 19.0.1.0.23 (2026-08-09)
+
+- Render the _Fons trobats_ list in the download wizard as read-only: no editable
+  wizard sub-form, no wizard_id selection. Each row shows the fond and a _Descarrega_
+  button that downloads that fond directly.
+
+## 19.0.1.0.22 (2026-08-09)
+
+- In the _Descarrega un fons_ wizard, when the search matches several fonds show the
+  list of found fonds with a per-fond _Descarrega_ button instead of asking the user to
+  refine the search. A single match is still downloaded directly with the main button.
+
+## 19.0.1.0.21 (2026-08-09)
+
+- Show feedback in the _Descarrega un fons_ wizard while typing: as soon as the
+  `Nom del fons` field is left, the wizard displays the single fond found, or how many
+  match, so the user knows the search worked before pressing _Descarrega_.
+
+## 19.0.1.0.20 (2026-08-09)
+
+- Simplify the _Descarrega un fons_ wizard: remove the match list and per-fond
+  selection. Pressing _Descarrega_ now downloads the fond directly when the search
+  finds exactly one match, and warns to refine the search when it finds several or none.
+
+## 19.0.1.0.19 (2026-08-09)
+
+- Fix the fond search in the download wizard: `_fold_text` now lowercases the folded
+  term so partial-name searches work regardless of capitalisation (previously a
+  lowercase query returned no results because the AENL fond list is stored in mixed
+  case).
+
 ## 19.0.1.0.18 (2026-08-08)
 
 - Remove the filesystem-based _Scrap_ wizard and replace it with a per-fond import:

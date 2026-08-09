@@ -483,7 +483,7 @@ class LensMemoriaeArxiuFons(models.Model):
         value = unicodedata.normalize("NFD", text or "")
         value = "".join(ch for ch in value if unicodedata.category(ch) != "Mn")
         value = re.sub(r"[^A-Za-z0-9 ]", " ", value)
-        return re.sub(r"\s+", " ", value).strip()
+        return re.sub(r"\s+", " ", value).strip().lower()
 
     def _fetch_fons_detail(self):
         return self._api_get(
